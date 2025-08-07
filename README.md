@@ -111,17 +111,50 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 - `get_recent_items` - Get recently viewed items
 - `get_popular_items` - Get most popular cards and dashboards
 
-### Advanced Dashboard Features
+### Advanced Dashboard Features (33 Tools - Updated with Official Metabase API Endpoints)
 
+**Note: Dashboard tools have been completely updated with 25+ new official Metabase API endpoints while preserving all existing functionality.**
+
+#### Core Dashboard Operations (Preserved)
+- ✅ `list_dashboards` - List all dashboards in Metabase
+- ✅ `create_dashboard` - Create a new Metabase dashboard
+- ✅ `update_dashboard` - Update an existing Metabase dashboard
+- ✅ `delete_dashboard` - Delete a Metabase dashboard
+- ✅ `get_dashboard_cards` - Get all cards in a dashboard
+
+#### Dashboard Card Management (Preserved)
 - ✅ `add_card_to_dashboard` - Add a card to a dashboard with positioning
 - ✅ `remove_card_from_dashboard` - Remove a card from a dashboard
 - ✅ `update_dashboard_card` - Update card position, size, and settings
-- `get_dashboard_parameters` - Get dashboard parameters
-- `update_dashboard_parameters` - Update dashboard parameters
-- `create_dashboard_subscription` - Create dashboard subscriptions/alerts
-- `list_dashboard_subscriptions` - List all dashboard subscriptions
-- `update_dashboard_subscription` - Update subscription settings
-- `delete_dashboard_subscription` - Delete a dashboard subscription
+
+#### Dashboard Embedding & Public Access
+- ✅ `get_dashboard_embeddable` - Get embeddable dashboards
+- ✅ `get_dashboard_public` - Get public dashboards
+- ✅ `post_dashboard_public_link` - Create a public link for a dashboard
+- ✅ `delete_dashboard_public_link` - Delete a public link for a dashboard
+
+#### Dashboard Queries & Execution
+- ✅ `post_dashboard_query` - Execute a query for a dashboard card
+- ✅ `post_dashboard_query_export` - Export dashboard card query results in specified format
+- ✅ `post_dashboard_pivot_query` - Execute a pivot query for a dashboard card
+- ✅ `get_dashboard_execute` - Get execution status for a dashboard card
+- ✅ `post_dashboard_execute` - Execute a dashboard card
+
+#### Dashboard Parameters & Filtering
+- ✅ `get_dashboard_params_valid_filter_fields` - Get valid filter fields for dashboard parameters
+- ✅ `get_dashboard_param_remapping` - Get parameter remapping for a dashboard
+- ✅ `get_dashboard_param_search` - Search dashboard parameter values
+- ✅ `get_dashboard_param_values` - Get parameter values for a dashboard
+
+#### Dashboard Management & Operations
+- ✅ `post_dashboard_save` - Save a dashboard
+- ✅ `post_dashboard_save_to_collection` - Save a dashboard to a specific collection
+- ✅ `post_dashboard_copy` - Copy a dashboard
+- ✅ `get_dashboard` - Get a specific dashboard by ID
+- ✅ `put_dashboard_cards` - Update dashboard cards configuration
+- ✅ `get_dashboard_items` - Get dashboard items
+- ✅ `get_dashboard_query_metadata` - Get query metadata for a dashboard
+- ✅ `get_dashboard_related` - Get related content for a dashboard
 
 ### Analytics & Monitoring
 
