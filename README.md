@@ -18,7 +18,9 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 - **Search & Discovery**: Global search, popular items, and content recommendations
 - **Settings & Configuration**: System settings and instance configuration management
 
-## **70+ Tools Available** covering all major Metabase functionality for enterprise usage.
+## **58+ Tools Available** covering all major Metabase functionality for enterprise usage.
+
+**Recent Update**: Database tools have been completely revamped with 31 official Metabase API endpoints, replacing previous incorrect implementations with accurate descriptions and parameters from official documentation.
 
 ## Features
 
@@ -38,19 +40,19 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 
 #### Dashboard Management
 
-- `list_dashboards` - List all dashboards in Metabase
-- `create_dashboard` - Create a new dashboard
-- `update_dashboard` - Update an existing dashboard
-- `delete_dashboard` - Delete/archive a dashboard
-- `get_dashboard_cards` - Get all cards in a dashboard
+- ✅ `list_dashboards` - List all dashboards in Metabase
+- ✅ `create_dashboard` - Create a new dashboard
+- ✅ `update_dashboard` - Update an existing dashboard
+- ✅ `delete_dashboard` - Delete/archive a dashboard
+- ✅ `get_dashboard_cards` - Get all cards in a dashboard
 
 #### Card/Question Management
 
-- `list_cards` - List all questions/cards in Metabase
-- `create_card` - Create a new question/card
-- `update_card` - Update an existing question/card
-- `delete_card` - Delete/archive a question/card
-- `execute_card` - Execute a card and get results
+- ✅ `list_cards` - List all questions/cards in Metabase
+- ✅ `create_card` - Create a new question/card
+- ✅ `update_card` - Update an existing question/card
+- ✅ `delete_card` - Delete/archive a question/card
+- ✅ `execute_card` - Execute a card and get results
 
 #### Database Operations
 
@@ -59,8 +61,8 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 
 ### Collections Management
 
-- `list_collections` - List all collections
-- `create_collection` - Create a new collection
+- ✅ `list_collections` - List all collections
+- ✅ `create_collection` - Create a new collection
 - `update_collection` - Update an existing collection
 - `delete_collection` - Delete a collection
 - `get_collection_items` - Get all items in a collection
@@ -68,13 +70,13 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 
 ### User & Permission Management
 
-- `list_users` - List all users
-- `create_user` - Create a new user
+- ✅ `list_users` - List all users
+- ✅ `create_user` - Create a new user
 - `update_user` - Update user details
 - `delete_user` - Deactivate a user
 - `list_permissions` - List permission groups and permissions
-- `list_permission_groups` - List all permission groups
-- `create_permission_group` - Create a new permission group
+- ✅ `list_permission_groups` - List all permission groups
+- ✅ `create_permission_group` - Create a new permission group
 - `update_permission_group` - Update a permission group
 - `delete_permission_group` - Delete a permission group
 - `add_user_to_group` - Add user to permission group
@@ -105,15 +107,15 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 
 ### Search & Discovery
 
-- `search_content` - Search across all Metabase content
+- ✅ `search_content` - Search across all Metabase content
 - `get_recent_items` - Get recently viewed items
 - `get_popular_items` - Get most popular cards and dashboards
 
 ### Advanced Dashboard Features
 
-- `add_card_to_dashboard` - Add a card to a dashboard with positioning
-- `remove_card_from_dashboard` - Remove a card from a dashboard
-- `update_dashboard_card` - Update card position, size, and settings
+- ✅ `add_card_to_dashboard` - Add a card to a dashboard with positioning
+- ✅ `remove_card_from_dashboard` - Remove a card from a dashboard
+- ✅ `update_dashboard_card` - Update card position, size, and settings
 - `get_dashboard_parameters` - Get dashboard parameters
 - `update_dashboard_parameters` - Update dashboard parameters
 - `create_dashboard_subscription` - Create dashboard subscriptions/alerts
@@ -128,17 +130,64 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 - `get_system_usage_stats` - Get system-wide usage statistics
 - `get_system_health` - Get system health status
 
-### Database Connection Management
+### Database Management (31 Tools - Updated with Official Metabase API Endpoints)
 
-- `create_database_connection` - Create new database connections
-- `test_database_connection` - Test database connectivity
-- `sync_database_schema` - Sync database schema metadata
-- `get_database_sync_status` - Get database schema sync status
+**Note: Database tools have been completely revamped to use official Metabase API endpoints with correct descriptions and parameters.**
+
+#### Core Database Operations
+- ✅ `list_databases` - List all databases in Metabase (simplified version)
+- ✅ `create_database` - Create a new database connection
+- ✅ `create_sample_database` - Create a sample database for testing
+- ✅ `validate_database` - Validate database connection settings
+- ✅ `get_database` - Get details of a specific database
+- ✅ `update_database` - Update database connection settings
+- ✅ `delete_database` - Delete a database connection
+- ✅ `execute_query` - Execute SQL queries against a database with parameters
+
+#### Database Schema & Metadata
+- ✅ `get_database_schema_tables` - Get all tables in a database
+- ✅ `get_database_schema_tables_for_schema` - Get tables for a specific schema
+- ✅ `get_database_schemas` - Get all schemas in a database
+- ✅ `get_database_metadata` - Get complete database metadata
+- ✅ `get_database_fields` - Get all fields in a database
+- ✅ `get_database_id_fields` - Get ID fields for a database
+- ✅ `sync_database_schema` - Sync database schema metadata
+- ✅ `get_database_syncable_schemas` - Get schemas available for syncing
+
+#### Database Operations & Maintenance
+- ✅ `get_database_healthcheck` - Check database connection health
+- ✅ `get_database_usage_info` - Get database usage statistics
+- ✅ `rescan_database_field_values` - Rescan field values for a database
+- ✅ `discard_database_field_values` - Discard cached field values
+- ✅ `dismiss_database_spinner` - Dismiss database loading spinner
+
+#### Autocomplete & Suggestions
+- ✅ `get_database_autocomplete_suggestions` - Get autocomplete suggestions for database queries
+- ✅ `get_database_card_autocomplete_suggestions` - Get card-specific autocomplete suggestions
+
+#### Virtual Database Operations
+- ✅ `get_virtual_database_datasets` - Get datasets from virtual databases
+- ✅ `get_virtual_database_datasets_for_schema` - Get datasets for a specific virtual schema
+- ✅ `get_virtual_database_metadata` - Get virtual database metadata
+- ✅ `get_virtual_database_schema_tables` - Get tables from virtual database schema
+- ✅ `get_virtual_database_schemas` - Get all schemas from virtual databases
 
 ### Settings & Configuration
 
 - `get_metabase_settings` - Get Metabase instance settings
 - `update_metabase_settings` - Update instance settings
+
+## Resources
+
+### MCP Resource Templates
+
+- ✅ `metabase://dashboard/{id}` - Get a Metabase dashboard by its ID
+- ✅ `metabase://card/{id}` - Get a Metabase question/card by its ID
+- ✅ `metabase://database/{id}` - Get a Metabase database by its ID
+- ✅ `metabase://collection/{id}` - Get a Metabase collection by its ID
+- ✅ `metabase://user/{id}` - Get a Metabase user by its ID
+- ✅ `metabase://table/{id}` - Get a Metabase table by its ID
+- ✅ `metabase://field/{id}` - Get a Metabase field by its ID
 
 ## Configuration
 
