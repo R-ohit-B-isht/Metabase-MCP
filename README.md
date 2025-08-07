@@ -1,11 +1,6 @@
 # metabase-server MCP Server
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub](https://img.shields.io/badge/GitHub-easecloudio%2Fmcp--metabase--server-blue)](https://github.com/easecloudio/mcp-metabase-server)
-
 A comprehensive Model Context Protocol server for Metabase integration.
-
-**Developed by [EaseCloud Technologies](https://easecloud.io)**
 
 This is a TypeScript-based MCP server that implements full integration with Metabase API. It allows AI assistants to interact with Metabase, providing comprehensive access to:
 
@@ -14,11 +9,11 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 - **User & Permission Management**: Complete user lifecycle and permission system control
 - **Database Management**: Connection management, schema sync, and metadata exploration
 - **Analytics & Monitoring**: Usage statistics, activity tracking, and system health monitoring
-- **Advanced Query Features**: Export, bookmarking, public sharing, and complex query execution
+- **Advanced Query Features**: Bookmarking, public sharing, and complex query execution
 - **Search & Discovery**: Global search, popular items, and content recommendations
 - **Settings & Configuration**: System settings and instance configuration management
 
-## **58+ Tools Available** covering all major Metabase functionality for enterprise usage.
+## **80+ Tools Available** covering all major Metabase functionality for enterprise usage.
 
 **Recent Update**: Database tools have been completely revamped with 31 official Metabase API endpoints, replacing previous incorrect implementations with accurate descriptions and parameters from official documentation.
 
@@ -53,6 +48,21 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 - ✅ `update_card` - Update an existing question/card
 - ✅ `delete_card` - Delete/archive a question/card
 - ✅ `execute_card` - Execute a card and get results
+- ✅ `move_cards` - Move multiple cards to a collection or dashboard
+- ✅ `move_cards_to_collection` - Bulk update endpoint for Card Collections. Move a set of Cards into a Collection or remove them from Collections
+- ✅ `get_embeddable_cards` - Get all embeddable cards
+- ✅ `execute_pivot_card_query` - Execute a pivot query for a card
+- ✅ `get_public_cards` - Get all public cards
+- ✅ `get_card_param_values` - Get values for a card parameter
+- ⏳ `search_card_param_values` - Search values for a card parameter
+- ⏳ `get_card_param_remapping` - Get parameter remapping for a card
+- ✅ `create_card_public_link` - Create a public link for a card
+- ✅ `delete_card_public_link` - Delete a public link for a card
+- ✅ `execute_card_query_with_format` - Execute a card query with a specific export format
+- ✅ `copy_card` - Create a copy of a card
+- ✅ `get_card_dashboards` - Get all dashboards containing a card
+- ✅ `get_card_query_metadata` - Get query metadata for a card
+- ⏳ `get_card_series` - Get series data for a card
 
 ### Collections Management
 
@@ -79,8 +89,6 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 
 ### Advanced Query Features
 
-- `export_card_results` - Export card results to CSV/JSON/Excel
-- `export_dashboard_data` - Export dashboard data to various formats
 - `bookmark_card` - Bookmark a card
 - `unbookmark_card` - Remove card bookmark
 - `bookmark_dashboard` - Bookmark a dashboard
@@ -93,8 +101,16 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 ### Search & Discovery
 
 - ✅ `search_content` - Search across all Metabase content
-- `get_recent_items` - Get recently viewed items
-- `get_popular_items` - Get most popular cards and dashboards
+
+### Activity & Recent Items (5 Tools - New Implementation)
+
+**Note: Activity tools have been newly implemented with official Metabase API endpoints.**
+
+- ✅ `get_most_recently_viewed_dashboard` - Get the most recently viewed dashboard
+- ✅ `get_popular_items` - Get popular items in Metabase
+- ✅ `get_recent_views` - Get recent views activity
+- ✅ `get_recents` - Get recent activity items
+- ✅ `post_recents` - Post recent activity data
 
 ### Advanced Dashboard Features (33 Tools - Updated with Official Metabase API Endpoints)
 
@@ -119,7 +135,7 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 - ✅ `delete_dashboard_public_link` - Delete a public link for a dashboard
 
 #### Dashboard Queries & Execution
-- ⏳ `post_dashboard_query` - Execute a query for a dashboard card
+- ✅ `post_dashboard_query` - Execute a query for a dashboard card
 - ⏳ `post_dashboard_query_export` - Export dashboard card query results in specified format
 - ⏳ `post_dashboard_pivot_query` - Execute a pivot query for a dashboard card
 - ⏳ `get_dashboard_execute` - Get execution status for a dashboard card
@@ -129,11 +145,11 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 - ⏳ `get_dashboard_params_valid_filter_fields` - Get valid filter fields for dashboard parameters
 - ⏳ `get_dashboard_param_remapping` - Get parameter remapping for a dashboard
 - ⏳ `get_dashboard_param_search` - Search dashboard parameter values
-- ✅ `get_dashboard_param_values` - Get parameter values for a dashboard
+- ⏳ `get_dashboard_param_values` - Get parameter values for a dashboard
 
 #### Dashboard Management & Operations
-- ✅ `post_dashboard_save` - Save a dashboard
-- ✅ `post_dashboard_save_to_collection` - Save a dashboard to a specific collection
+- ⏳ `post_dashboard_save` - Save a dashboard
+- ⏳ `post_dashboard_save_to_collection` - Save a dashboard to a specific collection
 - ✅ `post_dashboard_copy` - Copy a dashboard
 - ✅ `get_dashboard` - Get a specific dashboard by ID
 - ✅ `put_dashboard_cards` - Update dashboard cards configuration
@@ -154,13 +170,14 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 
 #### Core Database Operations
 - ✅ `list_databases` - List all databases in Metabase (simplified version)
-- ⏳ `create_database` - Create a new database connection
+- ❌ `create_database` - Create a new database connection
 - ✅ `create_sample_database` - Create a sample database for testing
-- ⏳ `validate_database` - Validate database connection settings
+- ❌ `validate_database` - Validate database connection settings
 - ✅ `get_database` - Get details of a specific database
 - ✅ `update_database` - Update database connection settings
 - ✅ `delete_database` - Delete a database connection
 - ✅ `execute_query` - Execute SQL queries against a database with parameters
+- ✅ `execute_query_export` - Execute a query and download the result data as a file in the specified format (CSV, JSON, XLSX, etc.)
 
 #### Database Schema & Metadata
 - ✅ `get_database_schema_tables` - Get all tables in a database
@@ -190,6 +207,34 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 - ⏳ `get_virtual_database_metadata` - Get virtual database metadata
 - ⏳ `get_virtual_database_schema_tables` - Get tables from virtual database schema
 - ⏳ `get_virtual_database_schemas` - Get all schemas from virtual databases
+
+### Table Management Tools
+
+#### Core Table Operations
+- ✅ `list_tables` - List all tables with optional filtering by IDs
+- ✅ `update_tables` - Update multiple tables with bulk operations
+- ✅ `get_table` - Get detailed information about a specific table
+- ✅ `update_table` - Update a specific table's configuration and metadata
+
+#### Table Data Operations
+- ⏳ `get_table_data` - Retrieve data from a specific table with pagination support
+- ⏳ `append_csv_to_table` - Append CSV data to an existing table
+- ⏳ `replace_table_csv` - Replace table data with new CSV content
+
+#### Table Schema & Metadata
+- ⏳ `get_table_query_metadata` - Get query metadata for a specific table
+- ✅ `get_table_fks` - Get foreign key relationships for a table
+- ✅ `get_table_related` - Get related tables and relationships
+- ⏳ `sync_table_schema` - Synchronize table schema with the database
+- ⏳ `reorder_table_fields` - Reorder the display order of table fields
+
+#### Table Field Operations
+- ✅ `rescan_table_field_values` - Rescan and update field values for a table
+- ✅ `discard_table_field_values` - Discard cached field values for a table
+
+#### Card Table Operations
+- ✅ `get_card_table_fks` - Get foreign key relationships for a card's table
+- ⏳ `get_card_table_query_metadata` - Get query metadata for a card's table
 
 ### Settings & Configuration
 

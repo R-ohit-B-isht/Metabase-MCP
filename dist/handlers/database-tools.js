@@ -53,59 +53,59 @@ export class DatabaseToolHandlers {
                     }
                 }
             },
-            // {
-            //   name: "create_database",
-            //   description: "Add a new Database connection",
-            //   inputSchema: {
-            //     type: "object",
-            //     properties: {
-            //       name: {
-            //         type: "string",
-            //         minLength: 1,
-            //         description: "Name of the database connection"
-            //       },
-            //       engine: {
-            //         type: "string", 
-            //         minLength: 1,
-            //         description: "Database engine (e.g., 'postgres', 'mysql', 'h2')"
-            //       },
-            //       details: {
-            //         type: "object",
-            //         description: "Connection details (host, port, dbname, user, etc.)"
-            //       },
-            //       auto_run_queries: {
-            //         type: "boolean",
-            //         description: "Whether to auto-run queries"
-            //       },
-            //       cache_ttl: {
-            //         type: "integer",
-            //         minimum: 1,
-            //         description: "Cache TTL in seconds"
-            //       },
-            //       connection_source: {
-            //         type: "string",
-            //         enum: ["admin", "setup"],
-            //         default: "admin",
-            //         description: "Connection source"
-            //       },
-            //       is_full_sync: {
-            //         type: "boolean",
-            //         default: true,
-            //         description: "Whether to perform full schema sync"
-            //       },
-            //       is_on_demand: {
-            //         type: "boolean", 
-            //         default: false,
-            //         description: "Whether this is an on-demand database"
-            //       },
-            //       schedules: {
-            //         type: "object",
-            //         description: "Schedule configuration for sync and analysis"
-            //       }
-            //     },
-            //     required: ["name", "engine", "details"]
-            //   }
-            // },
+            {
+                name: "create_database",
+                description: "Add a new Database",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        name: {
+                            type: "string",
+                            minLength: 1,
+                            description: "Name of the database connection"
+                        },
+                        engine: {
+                            type: "string",
+                            minLength: 1,
+                            description: "Database engine - must be a valid database engine"
+                        },
+                        details: {
+                            type: "object",
+                            description: "Connection details - must be a map"
+                        },
+                        auto_run_queries: {
+                            type: "boolean",
+                            description: "Whether to auto-run queries"
+                        },
+                        cache_ttl: {
+                            type: "integer",
+                            minimum: 1,
+                            description: "Cache TTL - must be an integer greater than zero"
+                        },
+                        connection_source: {
+                            type: "string",
+                            enum: ["admin", "setup"],
+                            default: "admin",
+                            description: "Connection source"
+                        },
+                        is_full_sync: {
+                            type: "boolean",
+                            default: true,
+                            description: "Whether to perform full schema sync"
+                        },
+                        is_on_demand: {
+                            type: "boolean",
+                            default: false,
+                            description: "Whether this is an on-demand database"
+                        },
+                        schedules: {
+                            type: "object",
+                            description: "Schedule configuration - must be a valid map of schedule maps for a DB"
+                        }
+                    },
+                    required: ["name", "engine", "details"]
+                }
+            },
             {
                 name: "create_sample_database",
                 description: "Add the sample database as a new Database",
@@ -114,20 +114,31 @@ export class DatabaseToolHandlers {
                     properties: {}
                 }
             },
-            // {
-            //   name: "validate_database",
-            //   description: "Validate that we can connect to a database given a set of details",
-            //   inputSchema: {
-            //     type: "object",
-            //     properties: {
-            //       details: {
-            //         type: "object",
-            //         description: "Database connection details to validate"
-            //       }
-            //     },
-            //     required: ["details"]
-            //   }
-            // },
+            {
+                name: "validate_database",
+                description: "Validate that we can connect to a database given a set of details",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        details: {
+                            type: "object",
+                            properties: {
+                                details: {
+                                    type: "object",
+                                    description: "Database connection details"
+                                },
+                                engine: {
+                                    type: "string",
+                                    minLength: 1,
+                                    description: "Database engine - must be a valid database engine"
+                                }
+                            },
+                            required: ["details", "engine"]
+                        }
+                    },
+                    required: ["details"]
+                }
+            },
             {
                 name: "get_database",
                 description: "Get a single Database with id. Optionally include tables and fields.",
@@ -618,6 +629,39 @@ export class DatabaseToolHandlers {
                     },
                     required: ["database_id", "query"],
                 },
+            },
+            {
+                name: "execute_query_export",
+                description: "Execute a query and download the result data as a file in the specified format",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        export_format: {
+                            type: "string",
+                            description: "Export format (e.g., csv, json, xlsx)",
+                        },
+                        query: {
+                            type: "object",
+                            description: "Query object to execute",
+                        },
+                        format_rows: {
+                            type: "boolean",
+                            default: false,
+                            description: "Whether to format rows",
+                        },
+                        pivot_results: {
+                            type: "boolean",
+                            default: false,
+                            description: "Whether to pivot results",
+                        },
+                        visualization_settings: {
+                            type: "object",
+                            default: {},
+                            description: "Visualization settings object",
+                        },
+                    },
+                    required: ["export_format", "query"],
+                },
             }
         ];
     }
@@ -681,6 +725,8 @@ export class DatabaseToolHandlers {
                 return await this.getVirtualDatabaseSchemas(args);
             case "execute_query":
                 return await this.executeQuery(args);
+            case "execute_query_export":
+                return await this.executeQueryExport(args);
             default:
                 throw new McpError(ErrorCode.MethodNotFound, `Unknown database tool: ${name}`);
         }
@@ -738,7 +784,10 @@ export class DatabaseToolHandlers {
         if (!details) {
             throw new McpError(ErrorCode.InvalidParams, "Details are required");
         }
-        const result = await this.client.apiCall("POST", "/api/database/validate", { details });
+        if (!details.details || !details.engine) {
+            throw new McpError(ErrorCode.InvalidParams, "Details must contain 'details' object and 'engine' string");
+        }
+        const result = await this.client.apiCall("POST", "/api/database/validate", details);
         return {
             content: [
                 {
@@ -1172,6 +1221,21 @@ export class DatabaseToolHandlers {
             throw new McpError(ErrorCode.InvalidParams, "Database ID and query are required");
         }
         const result = await this.client.executeQuery(database_id, query, native_parameters);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async executeQueryExport(args) {
+        const { export_format, query, format_rows = false, pivot_results = false, visualization_settings = {} } = args;
+        if (!export_format || !query) {
+            throw new McpError(ErrorCode.InvalidParams, "Export format and query are required");
+        }
+        const result = await this.client.executeQueryExport(export_format, query, format_rows, pivot_results, visualization_settings);
         return {
             content: [
                 {

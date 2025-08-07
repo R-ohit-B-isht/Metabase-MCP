@@ -4,17 +4,20 @@
 import { DashboardToolHandlers } from "./dashboard-tools.js";
 import { CardToolHandlers } from "./card-tools.js";
 import { DatabaseToolHandlers } from "./database-tools.js";
+import { TableToolHandlers } from "./table-tools.js";
 import { ErrorCode, McpError } from "../types/errors.js";
 export class ToolRegistry {
     client;
     dashboardHandlers;
     cardHandlers;
     databaseHandlers;
+    tableHandlers;
     constructor(client) {
         this.client = client;
         this.dashboardHandlers = new DashboardToolHandlers(client);
         this.cardHandlers = new CardToolHandlers(client);
         this.databaseHandlers = new DatabaseToolHandlers(client);
+        this.tableHandlers = new TableToolHandlers(client);
     }
     /**
      * Get all available tool schemas
@@ -24,6 +27,7 @@ export class ToolRegistry {
             ...this.dashboardHandlers.getToolSchemas(),
             ...this.cardHandlers.getToolSchemas(),
             ...this.databaseHandlers.getToolSchemas(),
+            ...this.tableHandlers.getToolSchemas(),
             // Add other tool schemas for collections, users, etc.
             ...this.getAdditionalToolSchemas(),
         ];
@@ -44,6 +48,9 @@ export class ToolRegistry {
         if (this.isDatabaseTool(name)) {
             return await this.databaseHandlers.handleTool(name, args);
         }
+        if (this.isTableTool(name)) {
+            return await this.tableHandlers.handleTool(name, args);
+        }
         // Handle other tools directly
         return await this.handleAdditionalTools(name, args);
     }
@@ -62,9 +69,9 @@ export class ToolRegistry {
                 // "get_dashboard_params_valid_filter_fields",
                 // "post_dashboard_pivot_query",
                 "get_dashboard_public",
-                "post_dashboard_save",
-                "post_dashboard_save_to_collection",
-                // "post_dashboard_query",
+                // "post_dashboard_save",
+                // "post_dashboard_save_to_collection",
+                "post_dashboard_query",
                 // "post_dashboard_query_export",
                 // "get_dashboard_execute",
                 // "post_dashboard_execute",
@@ -76,7 +83,7 @@ export class ToolRegistry {
                 "get_dashboard_items",
                 // "get_dashboard_param_remapping",
                 "get_dashboard_param_search",
-                "get_dashboard_param_values",
+                // "get_dashboard_param_values",
                 "get_dashboard_query_metadata",
                 "get_dashboard_related",
             ].includes(name));
@@ -89,6 +96,21 @@ export class ToolRegistry {
                 "update_card",
                 "delete_card",
                 "execute_card",
+                "move_cards",
+                "move_cards_to_collection",
+                "get_embeddable_cards",
+                "execute_pivot_card_query",
+                "get_public_cards",
+                "get_card_param_values",
+                // "search_card_param_values",
+                // "get_card_param_remapping",
+                "create_card_public_link",
+                "delete_card_public_link",
+                "execute_card_query_with_format",
+                "copy_card",
+                "get_card_dashboards",
+                // "get_card_query_metadata",
+                // "get_card_series",
             ].includes(name));
     }
     isDatabaseTool(name) {
@@ -97,9 +119,10 @@ export class ToolRegistry {
             [
                 "list_databases",
                 "execute_query",
-                // "create_database",
+                "execute_query_export",
+                "create_database",
                 "create_sample_database",
-                // "validate_database",
+                "validate_database",
                 "get_database",
                 "update_database",
                 "delete_database",
@@ -124,6 +147,27 @@ export class ToolRegistry {
                 // "get_virtual_database_metadata",
                 // "get_virtual_database_schema_tables",
                 // "get_virtual_database_schemas",
+            ].includes(name));
+    }
+    isTableTool(name) {
+        return (name.startsWith("table") ||
+            [
+                "list_tables",
+                "update_tables",
+                "get_card_table_fks",
+                // "get_card_table_query_metadata",
+                "get_table",
+                "update_table",
+                // "append_csv_to_table",
+                "discard_table_field_values",
+                // "reorder_table_fields",
+                "get_table_fks",
+                // "get_table_query_metadata",
+                "get_table_related",
+                // "replace_table_csv",
+                "rescan_table_field_values",
+                // "sync_table_schema",
+                // "get_table_data",
             ].includes(name));
     }
     getAdditionalToolSchemas() {
@@ -226,6 +270,67 @@ export class ToolRegistry {
                     required: ["item_type", "item_id", "collection_id"],
                 },
             },
+            {
+                name: "get_most_recently_viewed_dashboard",
+                description: "Get the most recently viewed dashboard",
+                inputSchema: {
+                    type: "object",
+                    properties: {},
+                },
+            },
+            {
+                name: "get_popular_items",
+                description: "Get popular items in Metabase",
+                inputSchema: {
+                    type: "object",
+                    properties: {},
+                },
+            },
+            {
+                name: "get_recent_views",
+                description: "Get recent views activity",
+                inputSchema: {
+                    type: "object",
+                    properties: {},
+                },
+            },
+            {
+                name: "get_recents",
+                description: "Get a list of recent items the current user has been viewing most recently under the :recents key. Allows for filtering by context: views or selections",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        context: {
+                            type: "array",
+                            description: "Filter by context type",
+                            items: {
+                                type: "string",
+                                enum: ["selections", "views"]
+                            }
+                        },
+                        include_metadata: {
+                            type: "boolean",
+                            description: "Include metadata in the response",
+                            default: false
+                        }
+                    },
+                    required: ["context"]
+                },
+            },
+            {
+                name: "post_recents",
+                description: "Post recent activity data",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        data: {
+                            type: "object",
+                            description: "Activity data to post",
+                        },
+                    },
+                    required: ["data"],
+                },
+            },
             // User tools
             {
                 name: "list_users",
@@ -290,17 +395,99 @@ export class ToolRegistry {
                 inputSchema: {
                     type: "object",
                     properties: {
-                        query: { type: "string", description: "Search query" },
+                        q: {
+                            type: "string",
+                            description: "Search query",
+                            minLength: 1
+                        },
+                        context: { type: "string", description: "Search context" },
+                        archived: {
+                            type: "boolean",
+                            description: "Set to true to search archived items only",
+                            default: false
+                        },
+                        table_db_id: {
+                            type: "integer",
+                            description: "Search for tables, cards, and models of a certain DB",
+                            minimum: 1
+                        },
                         models: {
                             type: "array",
-                            description: "Filter by content types",
+                            description: "Only search for items of specific models",
                             items: {
                                 type: "string",
-                                enum: ["card", "dashboard", "collection", "database", "table"],
-                            },
+                                enum: ["dashboard", "table", "dataset", "segment", "collection", "database", "action", "indexed-entity", "metric", "card"]
+                            }
                         },
+                        filter_items_in_personal_collection: {
+                            type: "string",
+                            description: "Filter items in personal collections",
+                            enum: ["all", "only", "only-mine", "exclude", "exclude-others"]
+                        },
+                        created_at: {
+                            type: "string",
+                            description: "Search for items created at a specific timestamp",
+                            minLength: 1
+                        },
+                        created_by: {
+                            type: "array",
+                            description: "Search for items created by specific users",
+                            items: { type: "integer" }
+                        },
+                        display_type: {
+                            type: "array",
+                            description: "Search for cards/models with specific display types",
+                            items: { type: "string" }
+                        },
+                        has_temporal_dimensions: {
+                            type: "boolean",
+                            description: "Set to true to search for cards with temporal dimensions only"
+                        },
+                        last_edited_at: {
+                            type: "string",
+                            description: "Search for items last edited at a specific timestamp",
+                            minLength: 1
+                        },
+                        last_edited_by: {
+                            type: "array",
+                            description: "Search for items last edited by specific users",
+                            items: { type: "integer" }
+                        },
+                        model_ancestors: {
+                            type: "boolean",
+                            description: "Include model ancestors",
+                            default: false
+                        },
+                        search_engine: { type: "string", description: "Search engine to use" },
+                        search_native_query: {
+                            type: "boolean",
+                            description: "Set to true to search the content of native queries"
+                        },
+                        verified: {
+                            type: "boolean",
+                            description: "Set to true to search for verified items only"
+                        },
+                        ids: {
+                            type: "array",
+                            description: "Search for items with specific IDs",
+                            items: { type: "integer" }
+                        },
+                        calculate_available_models: {
+                            type: "boolean",
+                            description: "Calculate available models"
+                        },
+                        include_dashboard_questions: {
+                            type: "boolean",
+                            description: "Include dashboard questions",
+                            default: false
+                        },
+                        include_metadata: {
+                            type: "boolean",
+                            description: "Include metadata",
+                            default: false
+                        }
                     },
-                    required: ["query"],
+                    required: ["q"]
                 },
             },
         ];
@@ -320,6 +507,17 @@ export class ToolRegistry {
                 return await this.handleGetCollectionItems(args);
             case "move_to_collection":
                 return await this.handleMoveToCollection(args);
+            // Activity operations
+            case "get_most_recently_viewed_dashboard":
+                return await this.handleGetMostRecentlyViewedDashboard(args);
+            case "get_popular_items":
+                return await this.handleGetPopularItems(args);
+            case "get_recent_views":
+                return await this.handleGetRecentViews(args);
+            case "get_recents":
+                return await this.handleGetRecents(args);
+            case "post_recents":
+                return await this.handlePostRecents(args);
             // User operations
             case "list_users":
                 return await this.handleListUsers(args);
@@ -430,15 +628,31 @@ export class ToolRegistry {
         };
     }
     async handleSearchContent(args) {
-        const { query, models } = args;
-        if (!query) {
-            throw new McpError(ErrorCode.InvalidParams, "Search query is required");
+        const { q, ...otherParams } = args;
+        if (!q) {
+            throw new McpError(ErrorCode.InvalidParams, "Search query (q) is required");
         }
-        const params = { q: query };
-        if (models && Array.isArray(models) && models.length > 0) {
-            params.models = models.join(",");
-        }
-        const results = await this.client.apiCall("GET", "/api/search", params);
+        const queryParams = new URLSearchParams();
+        queryParams.append('q', q);
+        // Handle all other parameters
+        Object.entries(otherParams).forEach(([key, value]) => {
+            if (value !== undefined && value !== null) {
+                if (Array.isArray(value)) {
+                    // Handle array parameters
+                    if (value.length > 0) {
+                        if (key === 'models' || key === 'created_by' || key === 'last_edited_by' || key === 'display_type' || key === 'ids') {
+                            value.forEach(item => queryParams.append(key, item.toString()));
+                        }
+                    }
+                }
+                else {
+                    // Handle scalar parameters
+                    queryParams.append(key, value.toString());
+                }
+            }
+        });
+        const searchUrl = `/api/search?${queryParams.toString()}`;
+        const results = await this.client.apiCall("GET", searchUrl);
         return {
             content: [
                 {
@@ -511,6 +725,74 @@ export class ToolRegistry {
         const result = await this.client.apiCall("PUT", endpoint, {
             collection_id: collection_id,
         });
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async handleGetMostRecentlyViewedDashboard(args) {
+        const dashboard = await this.client.getMostRecentlyViewedDashboard();
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(dashboard, null, 2),
+                },
+            ],
+        };
+    }
+    async handleGetPopularItems(args) {
+        const items = await this.client.getPopularItems();
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(items, null, 2),
+                },
+            ],
+        };
+    }
+    async handleGetRecentViews(args) {
+        const views = await this.client.getRecentViews();
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(views, null, 2),
+                },
+            ],
+        };
+    }
+    async handleGetRecents(args) {
+        const { context, include_metadata = false } = args;
+        if (!context || !Array.isArray(context) || context.length === 0) {
+            throw new McpError(ErrorCode.InvalidParams, "Context parameter is required and must be a non-empty array");
+        }
+        const validContexts = ["selections", "views"];
+        const invalidContexts = context.filter(ctx => !validContexts.includes(ctx));
+        if (invalidContexts.length > 0) {
+            throw new McpError(ErrorCode.InvalidParams, `Invalid context values: ${invalidContexts.join(", ")}. Valid values are: ${validContexts.join(", ")}`);
+        }
+        const recents = await this.client.getRecents(context, include_metadata);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(recents, null, 2),
+                },
+            ],
+        };
+    }
+    async handlePostRecents(args) {
+        const { data } = args;
+        if (!data) {
+            throw new McpError(ErrorCode.InvalidParams, "Data is required");
+        }
+        const result = await this.client.postRecents(data);
         return {
             content: [
                 {
