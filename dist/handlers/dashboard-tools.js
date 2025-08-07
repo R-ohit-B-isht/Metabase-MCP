@@ -211,6 +211,406 @@ export class DashboardToolHandlers {
                     required: ["dashboard_id", "dashcard_id"],
                 },
             },
+            {
+                name: "get_dashboard_embeddable",
+                description: "Get embeddable dashboards",
+                inputSchema: {
+                    type: "object",
+                    properties: {},
+                },
+            },
+            {
+                name: "get_dashboard_params_valid_filter_fields",
+                description: "Get valid filter fields for dashboard parameters",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        filtered: {
+                            type: "array",
+                            description: "Array of field IDs that are being filtered",
+                            items: { type: "number" },
+                        },
+                        filtering: {
+                            type: "array",
+                            description: "Array of field IDs that are doing the filtering",
+                            items: { type: "number" },
+                        },
+                    },
+                    required: ["filtered"],
+                },
+            },
+            {
+                name: "post_dashboard_pivot_query",
+                description: "Execute a pivot query for a dashboard card",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        dashboard_id: {
+                            type: "number",
+                            description: "ID of the dashboard",
+                        },
+                        dashcard_id: {
+                            type: "number",
+                            description: "ID of the dashboard card",
+                        },
+                        card_id: {
+                            type: "number",
+                            description: "ID of the card",
+                        },
+                        query: {
+                            type: "object",
+                            description: "Query parameters for the pivot",
+                        },
+                    },
+                    required: ["dashboard_id", "dashcard_id", "card_id"],
+                },
+            },
+            {
+                name: "get_dashboard_public",
+                description: "Get public dashboards",
+                inputSchema: {
+                    type: "object",
+                    properties: {},
+                },
+            },
+            {
+                name: "post_dashboard_save",
+                description: "Save a dashboard",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        name: { type: "string", description: "Name of the dashboard" },
+                        description: {
+                            type: "string",
+                            description: "Description of the dashboard",
+                        },
+                        parameters: {
+                            type: "array",
+                            description: "Dashboard parameters",
+                            items: { type: "object" },
+                        },
+                        cards: {
+                            type: "array",
+                            description: "Dashboard cards",
+                            items: { type: "object" },
+                        },
+                    },
+                    required: ["name"],
+                },
+            },
+            {
+                name: "post_dashboard_save_to_collection",
+                description: "Save a dashboard to a specific collection",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        parent_collection_id: {
+                            type: "number",
+                            description: "ID of the parent collection",
+                        },
+                        name: { type: "string", description: "Name of the dashboard" },
+                        description: {
+                            type: "string",
+                            description: "Description of the dashboard",
+                        },
+                        parameters: {
+                            type: "array",
+                            description: "Dashboard parameters",
+                            items: { type: "object" },
+                        },
+                        cards: {
+                            type: "array",
+                            description: "Dashboard cards",
+                            items: { type: "object" },
+                        },
+                    },
+                    required: ["parent_collection_id", "name"],
+                },
+            },
+            {
+                name: "post_dashboard_query",
+                description: "Execute a query for a dashboard card",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        dashboard_id: {
+                            type: "number",
+                            description: "ID of the dashboard",
+                        },
+                        dashcard_id: {
+                            type: "number",
+                            description: "ID of the dashboard card",
+                        },
+                        card_id: {
+                            type: "number",
+                            description: "ID of the card",
+                        },
+                        parameters: {
+                            type: "object",
+                            description: "Query parameters",
+                        },
+                    },
+                    required: ["dashboard_id", "dashcard_id", "card_id"],
+                },
+            },
+            {
+                name: "post_dashboard_query_export",
+                description: "Export dashboard card query results in specified format",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        dashboard_id: {
+                            type: "number",
+                            description: "ID of the dashboard",
+                        },
+                        dashcard_id: {
+                            type: "number",
+                            description: "ID of the dashboard card",
+                        },
+                        card_id: {
+                            type: "number",
+                            description: "ID of the card",
+                        },
+                        export_format: {
+                            type: "string",
+                            description: "Export format (csv, xlsx, json)",
+                            enum: ["csv", "xlsx", "json"],
+                        },
+                        parameters: {
+                            type: "object",
+                            description: "Query parameters",
+                        },
+                    },
+                    required: ["dashboard_id", "dashcard_id", "card_id", "export_format"],
+                },
+            },
+            {
+                name: "get_dashboard_execute",
+                description: "Get execution status for a dashboard card",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        dashboard_id: {
+                            type: "number",
+                            description: "ID of the dashboard",
+                        },
+                        dashcard_id: {
+                            type: "number",
+                            description: "ID of the dashboard card",
+                        },
+                    },
+                    required: ["dashboard_id", "dashcard_id"],
+                },
+            },
+            {
+                name: "post_dashboard_execute",
+                description: "Execute a dashboard card",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        dashboard_id: {
+                            type: "number",
+                            description: "ID of the dashboard",
+                        },
+                        dashcard_id: {
+                            type: "number",
+                            description: "ID of the dashboard card",
+                        },
+                        parameters: {
+                            type: "object",
+                            description: "Execution parameters",
+                        },
+                    },
+                    required: ["dashboard_id", "dashcard_id"],
+                },
+            },
+            {
+                name: "post_dashboard_public_link",
+                description: "Create a public link for a dashboard",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        dashboard_id: {
+                            type: "number",
+                            description: "ID of the dashboard",
+                        },
+                    },
+                    required: ["dashboard_id"],
+                },
+            },
+            {
+                name: "delete_dashboard_public_link",
+                description: "Delete a public link for a dashboard",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        dashboard_id: {
+                            type: "number",
+                            description: "ID of the dashboard",
+                        },
+                    },
+                    required: ["dashboard_id"],
+                },
+            },
+            {
+                name: "post_dashboard_copy",
+                description: "Copy a dashboard",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        from_dashboard_id: {
+                            type: "number",
+                            description: "ID of the dashboard to copy from",
+                        },
+                        name: {
+                            type: "string",
+                            description: "Name for the new dashboard",
+                        },
+                        description: {
+                            type: "string",
+                            description: "Description for the new dashboard",
+                        },
+                        collection_id: {
+                            type: "number",
+                            description: "ID of the collection to save the copy in",
+                        },
+                    },
+                    required: ["from_dashboard_id"],
+                },
+            },
+            {
+                name: "get_dashboard",
+                description: "Get a specific dashboard by ID",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        id: {
+                            type: "number",
+                            description: "ID of the dashboard",
+                        },
+                    },
+                    required: ["id"],
+                },
+            },
+            {
+                name: "put_dashboard_cards",
+                description: "Update all cards in a dashboard",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        id: {
+                            type: "number",
+                            description: "ID of the dashboard",
+                        },
+                        cards: {
+                            type: "array",
+                            description: "Array of dashboard cards",
+                            items: { type: "object" },
+                        },
+                    },
+                    required: ["id", "cards"],
+                },
+            },
+            {
+                name: "get_dashboard_items",
+                description: "Get all items in a dashboard",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        id: {
+                            type: "number",
+                            description: "ID of the dashboard",
+                        },
+                    },
+                    required: ["id"],
+                },
+            },
+            {
+                name: "get_dashboard_param_remapping",
+                description: "Get parameter remapping for a dashboard",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        id: {
+                            type: "number",
+                            description: "ID of the dashboard",
+                        },
+                        param_key: {
+                            type: "string",
+                            description: "Parameter key",
+                        },
+                    },
+                    required: ["id", "param_key"],
+                },
+            },
+            {
+                name: "get_dashboard_param_search",
+                description: "Search dashboard parameter values",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        id: {
+                            type: "number",
+                            description: "ID of the dashboard",
+                        },
+                        param_key: {
+                            type: "string",
+                            description: "Parameter key",
+                        },
+                        query: {
+                            type: "string",
+                            description: "Search query",
+                        },
+                    },
+                    required: ["id", "param_key", "query"],
+                },
+            },
+            {
+                name: "get_dashboard_param_values",
+                description: "Get values for a dashboard parameter",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        id: {
+                            type: "number",
+                            description: "ID of the dashboard",
+                        },
+                        param_key: {
+                            type: "string",
+                            description: "Parameter key",
+                        },
+                    },
+                    required: ["id", "param_key"],
+                },
+            },
+            {
+                name: "get_dashboard_query_metadata",
+                description: "Get query metadata for a dashboard",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        id: {
+                            type: "number",
+                            description: "ID of the dashboard",
+                        },
+                    },
+                    required: ["id"],
+                },
+            },
+            {
+                name: "get_dashboard_related",
+                description: "Get related items for a dashboard",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        id: {
+                            type: "number",
+                            description: "ID of the dashboard",
+                        },
+                    },
+                    required: ["id"],
+                },
+            },
         ];
     }
     async handleTool(name, args) {
@@ -231,6 +631,48 @@ export class DashboardToolHandlers {
                 return await this.removeCardFromDashboard(args);
             case "update_dashboard_card":
                 return await this.updateDashboardCard(args);
+            case "get_dashboard_embeddable":
+                return await this.getDashboardEmbeddable();
+            case "get_dashboard_params_valid_filter_fields":
+                return await this.getDashboardParamsValidFilterFields(args);
+            case "post_dashboard_pivot_query":
+                return await this.postDashboardPivotQuery(args);
+            case "get_dashboard_public":
+                return await this.getDashboardPublic();
+            case "post_dashboard_save":
+                return await this.postDashboardSave(args);
+            case "post_dashboard_save_to_collection":
+                return await this.postDashboardSaveToCollection(args);
+            case "post_dashboard_query":
+                return await this.postDashboardQuery(args);
+            case "post_dashboard_query_export":
+                return await this.postDashboardQueryExport(args);
+            case "get_dashboard_execute":
+                return await this.getDashboardExecute(args);
+            case "post_dashboard_execute":
+                return await this.postDashboardExecute(args);
+            case "post_dashboard_public_link":
+                return await this.postDashboardPublicLink(args);
+            case "delete_dashboard_public_link":
+                return await this.deleteDashboardPublicLink(args);
+            case "post_dashboard_copy":
+                return await this.postDashboardCopy(args);
+            case "get_dashboard":
+                return await this.getDashboard(args);
+            case "put_dashboard_cards":
+                return await this.putDashboardCards(args);
+            case "get_dashboard_items":
+                return await this.getDashboardItems(args);
+            case "get_dashboard_param_remapping":
+                return await this.getDashboardParamRemapping(args);
+            case "get_dashboard_param_search":
+                return await this.getDashboardParamSearch(args);
+            case "get_dashboard_param_values":
+                return await this.getDashboardParamValues(args);
+            case "get_dashboard_query_metadata":
+                return await this.getDashboardQueryMetadata(args);
+            case "get_dashboard_related":
+                return await this.getDashboardRelated(args);
             default:
                 throw new McpError(ErrorCode.MethodNotFound, `Unknown dashboard tool: ${name}`);
         }
@@ -440,6 +882,351 @@ export class DashboardToolHandlers {
                 result = await this.client.apiCall("PUT", `/api/dashboard/${dashboard_id}/cards`, { cards: updatedCards });
             }
         }
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async getDashboardEmbeddable() {
+        const result = await this.client.apiCall("GET", "/api/dashboard/embeddable");
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async getDashboardParamsValidFilterFields(args) {
+        const { filtered, filtering } = args;
+        if (!filtered || !Array.isArray(filtered)) {
+            throw new McpError(ErrorCode.InvalidParams, "filtered parameter is required and must be an array");
+        }
+        const queryParams = new URLSearchParams();
+        filtered.forEach(id => queryParams.append('filtered', id.toString()));
+        if (filtering && Array.isArray(filtering)) {
+            filtering.forEach(id => queryParams.append('filtering', id.toString()));
+        }
+        const result = await this.client.apiCall("GET", `/api/dashboard/params/valid-filter-fields?${queryParams.toString()}`);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async postDashboardPivotQuery(args) {
+        const { dashboard_id, dashcard_id, card_id, query } = args;
+        if (!dashboard_id || !dashcard_id || !card_id) {
+            throw new McpError(ErrorCode.InvalidParams, "dashboard_id, dashcard_id, and card_id are required");
+        }
+        const requestBody = {};
+        if (query !== undefined)
+            requestBody.query = query;
+        const result = await this.client.apiCall("POST", `/api/dashboard/pivot/${dashboard_id}/dashcard/${dashcard_id}/card/${card_id}/query`, requestBody);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async getDashboardPublic() {
+        const result = await this.client.apiCall("GET", "/api/dashboard/public");
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async postDashboardSave(args) {
+        const { name, description, parameters, cards } = args;
+        if (!name) {
+            throw new McpError(ErrorCode.InvalidParams, "name is required");
+        }
+        const requestBody = { name };
+        if (description !== undefined)
+            requestBody.description = description;
+        if (parameters !== undefined)
+            requestBody.parameters = parameters;
+        if (cards !== undefined)
+            requestBody.cards = cards;
+        const result = await this.client.apiCall("POST", "/api/dashboard/save", requestBody);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async postDashboardSaveToCollection(args) {
+        const { parent_collection_id, name, description, parameters, cards } = args;
+        if (!parent_collection_id || !name) {
+            throw new McpError(ErrorCode.InvalidParams, "parent_collection_id and name are required");
+        }
+        const requestBody = { name };
+        if (description !== undefined)
+            requestBody.description = description;
+        if (parameters !== undefined)
+            requestBody.parameters = parameters;
+        if (cards !== undefined)
+            requestBody.cards = cards;
+        const result = await this.client.apiCall("POST", `/api/dashboard/save/collection/${parent_collection_id}`, requestBody);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async postDashboardQuery(args) {
+        const { dashboard_id, dashcard_id, card_id, parameters } = args;
+        if (!dashboard_id || !dashcard_id || !card_id) {
+            throw new McpError(ErrorCode.InvalidParams, "dashboard_id, dashcard_id, and card_id are required");
+        }
+        const requestBody = {};
+        if (parameters !== undefined)
+            requestBody.parameters = parameters;
+        const result = await this.client.apiCall("POST", `/api/dashboard/${dashboard_id}/dashcard/${dashcard_id}/card/${card_id}/query`, requestBody);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async postDashboardQueryExport(args) {
+        const { dashboard_id, dashcard_id, card_id, export_format, parameters } = args;
+        if (!dashboard_id || !dashcard_id || !card_id || !export_format) {
+            throw new McpError(ErrorCode.InvalidParams, "dashboard_id, dashcard_id, card_id, and export_format are required");
+        }
+        const requestBody = {};
+        if (parameters !== undefined)
+            requestBody.parameters = parameters;
+        const result = await this.client.apiCall("POST", `/api/dashboard/${dashboard_id}/dashcard/${dashcard_id}/card/${card_id}/query/${export_format}`, requestBody);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async getDashboardExecute(args) {
+        const { dashboard_id, dashcard_id } = args;
+        if (!dashboard_id || !dashcard_id) {
+            throw new McpError(ErrorCode.InvalidParams, "dashboard_id and dashcard_id are required");
+        }
+        const result = await this.client.apiCall("GET", `/api/dashboard/${dashboard_id}/dashcard/${dashcard_id}/execute`);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async postDashboardExecute(args) {
+        const { dashboard_id, dashcard_id, parameters } = args;
+        if (!dashboard_id || !dashcard_id) {
+            throw new McpError(ErrorCode.InvalidParams, "dashboard_id and dashcard_id are required");
+        }
+        const requestBody = {};
+        if (parameters !== undefined)
+            requestBody.parameters = parameters;
+        const result = await this.client.apiCall("POST", `/api/dashboard/${dashboard_id}/dashcard/${dashcard_id}/execute`, requestBody);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async postDashboardPublicLink(args) {
+        const { dashboard_id } = args;
+        if (!dashboard_id) {
+            throw new McpError(ErrorCode.InvalidParams, "dashboard_id is required");
+        }
+        const result = await this.client.apiCall("POST", `/api/dashboard/${dashboard_id}/public_link`);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async deleteDashboardPublicLink(args) {
+        const { dashboard_id } = args;
+        if (!dashboard_id) {
+            throw new McpError(ErrorCode.InvalidParams, "dashboard_id is required");
+        }
+        const result = await this.client.apiCall("DELETE", `/api/dashboard/${dashboard_id}/public_link`);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async postDashboardCopy(args) {
+        const { from_dashboard_id, name, description, collection_id } = args;
+        if (!from_dashboard_id) {
+            throw new McpError(ErrorCode.InvalidParams, "from_dashboard_id is required");
+        }
+        const requestBody = {};
+        if (name !== undefined)
+            requestBody.name = name;
+        if (description !== undefined)
+            requestBody.description = description;
+        if (collection_id !== undefined)
+            requestBody.collection_id = collection_id;
+        const result = await this.client.apiCall("POST", `/api/dashboard/${from_dashboard_id}/copy`, requestBody);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async getDashboard(args) {
+        const { id } = args;
+        if (!id) {
+            throw new McpError(ErrorCode.InvalidParams, "id is required");
+        }
+        const result = await this.client.apiCall("GET", `/api/dashboard/${id}`);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async putDashboardCards(args) {
+        const { id, cards } = args;
+        if (!id || !cards) {
+            throw new McpError(ErrorCode.InvalidParams, "id and cards are required");
+        }
+        const result = await this.client.apiCall("PUT", `/api/dashboard/${id}/cards`, { cards });
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async getDashboardItems(args) {
+        const { id } = args;
+        if (!id) {
+            throw new McpError(ErrorCode.InvalidParams, "id is required");
+        }
+        const result = await this.client.apiCall("GET", `/api/dashboard/${id}/items`);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async getDashboardParamRemapping(args) {
+        const { id, param_key } = args;
+        if (!id || !param_key) {
+            throw new McpError(ErrorCode.InvalidParams, "id and param_key are required");
+        }
+        const result = await this.client.apiCall("GET", `/api/dashboard/${id}/params/${param_key}/remapping`);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async getDashboardParamSearch(args) {
+        const { id, param_key, query } = args;
+        if (!id || !param_key || !query) {
+            throw new McpError(ErrorCode.InvalidParams, "id, param_key, and query are required");
+        }
+        const result = await this.client.apiCall("GET", `/api/dashboard/${id}/params/${param_key}/search/${query}`);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async getDashboardParamValues(args) {
+        const { id, param_key } = args;
+        if (!id || !param_key) {
+            throw new McpError(ErrorCode.InvalidParams, "id and param_key are required");
+        }
+        const result = await this.client.apiCall("GET", `/api/dashboard/${id}/params/${param_key}/values`);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async getDashboardQueryMetadata(args) {
+        const { id } = args;
+        if (!id) {
+            throw new McpError(ErrorCode.InvalidParams, "id is required");
+        }
+        const result = await this.client.apiCall("GET", `/api/dashboard/${id}/query_metadata`);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
+                },
+            ],
+        };
+    }
+    async getDashboardRelated(args) {
+        const { id } = args;
+        if (!id) {
+            throw new McpError(ErrorCode.InvalidParams, "id is required");
+        }
+        const result = await this.client.apiCall("GET", `/api/dashboard/${id}/related`);
         return {
             content: [
                 {
