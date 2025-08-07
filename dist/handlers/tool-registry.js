@@ -55,26 +55,26 @@ export class ToolRegistry {
                 "update_dashboard",
                 "delete_dashboard",
                 "get_dashboard_cards",
-                "add_card_to_dashboard",
+                // "add_card_to_dashboard",
                 "remove_card_from_dashboard",
                 "update_dashboard_card",
-                "get_dashboard_embeddable",
-                "get_dashboard_params_valid_filter_fields",
-                "post_dashboard_pivot_query",
+                // "get_dashboard_embeddable",
+                // "get_dashboard_params_valid_filter_fields",
+                // "post_dashboard_pivot_query",
                 "get_dashboard_public",
                 "post_dashboard_save",
                 "post_dashboard_save_to_collection",
-                "post_dashboard_query",
-                "post_dashboard_query_export",
-                "get_dashboard_execute",
-                "post_dashboard_execute",
+                // "post_dashboard_query",
+                // "post_dashboard_query_export",
+                // "get_dashboard_execute",
+                // "post_dashboard_execute",
                 "post_dashboard_public_link",
                 "delete_dashboard_public_link",
                 "post_dashboard_copy",
                 "get_dashboard",
                 "put_dashboard_cards",
                 "get_dashboard_items",
-                "get_dashboard_param_remapping",
+                // "get_dashboard_param_remapping",
                 "get_dashboard_param_search",
                 "get_dashboard_param_values",
                 "get_dashboard_query_metadata",
@@ -97,8 +97,33 @@ export class ToolRegistry {
             [
                 "list_databases",
                 "execute_query",
-                "get_database_schema",
-                "get_database_tables",
+                // "create_database",
+                "create_sample_database",
+                // "validate_database",
+                "get_database",
+                "update_database",
+                "delete_database",
+                // "get_database_autocomplete_suggestions",
+                // "get_database_card_autocomplete_suggestions",
+                "discard_database_field_values",
+                "dismiss_database_spinner",
+                "get_database_fields",
+                "get_database_healthcheck",
+                "get_database_idfields",
+                "get_database_metadata",
+                "rescan_database_field_values",
+                // "get_database_schema_tables_without_schema",
+                "get_database_schema_tables",
+                "get_database_schema_tables_for_schema",
+                "get_database_schemas",
+                "sync_database_schema",
+                "get_database_syncable_schemas",
+                "get_database_usage_info",
+                // "get_virtual_database_datasets",
+                // "get_virtual_database_datasets_for_schema",
+                // "get_virtual_database_metadata",
+                // "get_virtual_database_schema_tables",
+                // "get_virtual_database_schemas",
             ].includes(name));
     }
     getAdditionalToolSchemas() {
@@ -136,6 +161,69 @@ export class ToolRegistry {
                         },
                     },
                     required: ["name"],
+                },
+            },
+            {
+                name: "update_collection",
+                description: "Update an existing collection",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        id: { type: "number", description: "Collection ID to update" },
+                        name: { type: "string", description: "New name of the collection" },
+                        description: {
+                            type: "string",
+                            description: "New description of the collection",
+                        },
+                        color: { type: "string", description: "New color of the collection" },
+                        parent_id: {
+                            type: "number",
+                            description: "New parent collection ID",
+                        },
+                    },
+                    required: ["id"],
+                },
+            },
+            {
+                name: "delete_collection",
+                description: "Delete a collection",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        id: { type: "number", description: "Collection ID to delete" },
+                    },
+                    required: ["id"],
+                },
+            },
+            {
+                name: "get_collection_items",
+                description: "Get all items in a collection",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        id: { type: "number", description: "Collection ID to get items from" },
+                    },
+                    required: ["id"],
+                },
+            },
+            {
+                name: "move_to_collection",
+                description: "Move items between collections",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        item_type: {
+                            type: "string",
+                            description: "Type of item to move",
+                            enum: ["card", "dashboard"],
+                        },
+                        item_id: { type: "number", description: "ID of the item to move" },
+                        collection_id: {
+                            type: "number",
+                            description: "Target collection ID (null for root level)",
+                        },
+                    },
+                    required: ["item_type", "item_id", "collection_id"],
                 },
             },
             // User tools
@@ -224,6 +312,14 @@ export class ToolRegistry {
                 return await this.handleListCollections(args);
             case "create_collection":
                 return await this.handleCreateCollection(args);
+            case "update_collection":
+                return await this.handleUpdateCollection(args);
+            case "delete_collection":
+                return await this.handleDeleteCollection(args);
+            case "get_collection_items":
+                return await this.handleGetCollectionItems(args);
+            case "move_to_collection":
+                return await this.handleMoveToCollection(args);
             // User operations
             case "list_users":
                 return await this.handleListUsers(args);
@@ -348,6 +444,78 @@ export class ToolRegistry {
                 {
                     type: "text",
                     text: JSON.stringify(results, null, 2),
+                },
+            ],
+        };
+    }
+    async handleUpdateCollection(args) {
+        const { id, name, description, color, parent_id } = args;
+        if (!id) {
+            throw new McpError(ErrorCode.InvalidParams, "Collection ID is required");
+        }
+        const updates = {};
+        if (name !== undefined)
+            updates.name = name;
+        if (description !== undefined)
+            updates.description = description;
+        if (color !== undefined)
+            updates.color = color;
+        if (parent_id !== undefined)
+            updates.parent_id = parent_id;
+        const collection = await this.client.updateCollection(id, updates);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(collection, null, 2),
+                },
+            ],
+        };
+    }
+    async handleDeleteCollection(args) {
+        const { id } = args;
+        if (!id) {
+            throw new McpError(ErrorCode.InvalidParams, "Collection ID is required");
+        }
+        await this.client.deleteCollection(id);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: `Collection ${id} deleted successfully`,
+                },
+            ],
+        };
+    }
+    async handleGetCollectionItems(args) {
+        const { id } = args;
+        if (!id) {
+            throw new McpError(ErrorCode.InvalidParams, "Collection ID is required");
+        }
+        const items = await this.client.apiCall("GET", `/api/collection/${id}/items`);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(items, null, 2),
+                },
+            ],
+        };
+    }
+    async handleMoveToCollection(args) {
+        const { item_type, item_id, collection_id } = args;
+        if (!item_type || !item_id || collection_id === undefined) {
+            throw new McpError(ErrorCode.InvalidParams, "item_type, item_id, and collection_id are required");
+        }
+        const endpoint = item_type === "card" ? `/api/card/${item_id}` : `/api/dashboard/${item_id}`;
+        const result = await this.client.apiCall("PUT", endpoint, {
+            collection_id: collection_id,
+        });
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(result, null, 2),
                 },
             ],
         };

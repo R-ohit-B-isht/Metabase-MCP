@@ -107,53 +107,53 @@ export class DashboardToolHandlers {
           required: ["dashboard_id"],
         },
       },
-      {
-        name: "add_card_to_dashboard",
-        description: "Add a card to a dashboard with positioning",
-        inputSchema: {
-          type: "object",
-          properties: {
-            dashboard_id: {
-              type: "number",
-              description: "ID of the dashboard",
-            },
-            card_id: {
-              type: "number",
-              description: "ID of the card to add",
-            },
-            row: {
-              type: "number",
-              description: "Row position (0-based)",
-              default: 0,
-            },
-            col: {
-              type: "number",
-              description: "Column position (0-based)",
-              default: 0,
-            },
-            size_x: {
-              type: "number",
-              description: "Width in grid units",
-              default: 4,
-            },
-            size_y: {
-              type: "number",
-              description: "Height in grid units",
-              default: 4,
-            },
-            parameter_mappings: {
-              type: "array",
-              description: "Parameter mappings between dashboard and card",
-              items: { type: "object" },
-            },
-            visualization_settings: {
-              type: "object",
-              description: "Visualization settings for the card on this dashboard",
-            },
-          },
-          required: ["dashboard_id", "card_id"],
-        },
-      },
+      // {
+      //   name: "add_card_to_dashboard",
+      //   description: "Add a card to a dashboard with positioning",
+      //   inputSchema: {
+      //     type: "object",
+      //     properties: {
+      //       dashboard_id: {
+      //         type: "number",
+      //         description: "ID of the dashboard",
+      //       },
+      //       card_id: {
+      //         type: "number",
+      //         description: "ID of the card to add",
+      //       },
+      //       row: {
+      //         type: "number",
+      //         description: "Row position (0-based)",
+      //         default: 0,
+      //       },
+      //       col: {
+      //         type: "number",
+      //         description: "Column position (0-based)",
+      //         default: 0,
+      //       },
+      //       size_x: {
+      //         type: "number",
+      //         description: "Width in grid units",
+      //         default: 4,
+      //       },
+      //       size_y: {
+      //         type: "number",
+      //         description: "Height in grid units",
+      //         default: 4,
+      //       },
+      //       parameter_mappings: {
+      //         type: "array",
+      //         description: "Parameter mappings between dashboard and card",
+      //         items: { type: "object" },
+      //       },
+      //       visualization_settings: {
+      //         type: "object",
+      //         description: "Visualization settings for the card on this dashboard",
+      //       },
+      //     },
+      //     required: ["dashboard_id", "card_id"],
+      //   },
+      // },
       {
         name: "remove_card_from_dashboard",
         description: "Remove a card from a dashboard",
@@ -215,60 +215,60 @@ export class DashboardToolHandlers {
           required: ["dashboard_id", "dashcard_id"],
         },
       },
-      {
-        name: "get_dashboard_embeddable",
-        description: "Get embeddable dashboards",
-        inputSchema: {
-          type: "object",
-          properties: {},
-        },
-      },
-      {
-        name: "get_dashboard_params_valid_filter_fields",
-        description: "Get valid filter fields for dashboard parameters",
-        inputSchema: {
-          type: "object",
-          properties: {
-            filtered: {
-              type: "array",
-              description: "Array of field IDs that are being filtered",
-              items: { type: "number" },
-            },
-            filtering: {
-              type: "array",
-              description: "Array of field IDs that are doing the filtering",
-              items: { type: "number" },
-            },
-          },
-          required: ["filtered"],
-        },
-      },
-      {
-        name: "post_dashboard_pivot_query",
-        description: "Execute a pivot query for a dashboard card",
-        inputSchema: {
-          type: "object",
-          properties: {
-            dashboard_id: {
-              type: "number",
-              description: "ID of the dashboard",
-            },
-            dashcard_id: {
-              type: "number",
-              description: "ID of the dashboard card",
-            },
-            card_id: {
-              type: "number",
-              description: "ID of the card",
-            },
-            query: {
-              type: "object",
-              description: "Query parameters for the pivot",
-            },
-          },
-          required: ["dashboard_id", "dashcard_id", "card_id"],
-        },
-      },
+      // {
+      //   name: "get_dashboard_embeddable",
+      //   description: "Get embeddable dashboards",
+      //   inputSchema: {
+      //     type: "object",
+      //     properties: {},
+      //   },
+      // },
+      // {
+      //   name: "get_dashboard_params_valid_filter_fields",
+      //   description: "Get valid filter fields for dashboard parameters",
+      //   inputSchema: {
+      //     type: "object",
+      //     properties: {
+      //       filtered: {
+      //         type: "array",
+      //         description: "Array of field IDs that are being filtered",
+      //         items: { type: "number" },
+      //       },
+      //       filtering: {
+      //         type: "array",
+      //         description: "Array of field IDs that are doing the filtering",
+      //         items: { type: "number" },
+      //       },
+      //     },
+      //     required: ["filtered"],
+      //   },
+      // },
+      // {
+      //   name: "post_dashboard_pivot_query",
+      //   description: "Execute a pivot query for a dashboard card",
+      //   inputSchema: {
+      //     type: "object",
+      //     properties: {
+      //       dashboard_id: {
+      //         type: "number",
+      //         description: "ID of the dashboard",
+      //       },
+      //       dashcard_id: {
+      //         type: "number",
+      //         description: "ID of the dashboard card",
+      //       },
+      //       card_id: {
+      //         type: "number",
+      //         description: "ID of the card",
+      //       },
+      //       query: {
+      //         type: "object",
+      //         description: "Query parameters for the pivot",
+      //       },
+      //     },
+      //     required: ["dashboard_id", "dashcard_id", "card_id"],
+      //   },
+      // },
       {
         name: "get_dashboard_public",
         description: "Get public dashboards",
@@ -331,103 +331,103 @@ export class DashboardToolHandlers {
           required: ["parent_collection_id", "name"],
         },
       },
-      {
-        name: "post_dashboard_query",
-        description: "Execute a query for a dashboard card",
-        inputSchema: {
-          type: "object",
-          properties: {
-            dashboard_id: {
-              type: "number",
-              description: "ID of the dashboard",
-            },
-            dashcard_id: {
-              type: "number",
-              description: "ID of the dashboard card",
-            },
-            card_id: {
-              type: "number",
-              description: "ID of the card",
-            },
-            parameters: {
-              type: "object",
-              description: "Query parameters",
-            },
-          },
-          required: ["dashboard_id", "dashcard_id", "card_id"],
-        },
-      },
-      {
-        name: "post_dashboard_query_export",
-        description: "Export dashboard card query results in specified format",
-        inputSchema: {
-          type: "object",
-          properties: {
-            dashboard_id: {
-              type: "number",
-              description: "ID of the dashboard",
-            },
-            dashcard_id: {
-              type: "number",
-              description: "ID of the dashboard card",
-            },
-            card_id: {
-              type: "number",
-              description: "ID of the card",
-            },
-            export_format: {
-              type: "string",
-              description: "Export format (csv, xlsx, json)",
-              enum: ["csv", "xlsx", "json"],
-            },
-            parameters: {
-              type: "object",
-              description: "Query parameters",
-            },
-          },
-          required: ["dashboard_id", "dashcard_id", "card_id", "export_format"],
-        },
-      },
-      {
-        name: "get_dashboard_execute",
-        description: "Get execution status for a dashboard card",
-        inputSchema: {
-          type: "object",
-          properties: {
-            dashboard_id: {
-              type: "number",
-              description: "ID of the dashboard",
-            },
-            dashcard_id: {
-              type: "number",
-              description: "ID of the dashboard card",
-            },
-          },
-          required: ["dashboard_id", "dashcard_id"],
-        },
-      },
-      {
-        name: "post_dashboard_execute",
-        description: "Execute a dashboard card",
-        inputSchema: {
-          type: "object",
-          properties: {
-            dashboard_id: {
-              type: "number",
-              description: "ID of the dashboard",
-            },
-            dashcard_id: {
-              type: "number",
-              description: "ID of the dashboard card",
-            },
-            parameters: {
-              type: "object",
-              description: "Execution parameters",
-            },
-          },
-          required: ["dashboard_id", "dashcard_id"],
-        },
-      },
+      // {
+      //   name: "post_dashboard_query",
+      //   description: "Execute a query for a dashboard card",
+      //   inputSchema: {
+      //     type: "object",
+      //     properties: {
+      //       dashboard_id: {
+      //         type: "number",
+      //         description: "ID of the dashboard",
+      //       },
+      //       dashcard_id: {
+      //         type: "number",
+      //         description: "ID of the dashboard card",
+      //       },
+      //       card_id: {
+      //         type: "number",
+      //         description: "ID of the card",
+      //       },
+      //       parameters: {
+      //         type: "object",
+      //         description: "Query parameters",
+      //       },
+      //     },
+      //     required: ["dashboard_id", "dashcard_id", "card_id"],
+      //   },
+      // },
+      // {
+      //   name: "post_dashboard_query_export",
+      //   description: "Export dashboard card query results in specified format",
+      //   inputSchema: {
+      //     type: "object",
+      //     properties: {
+      //       dashboard_id: {
+      //         type: "number",
+      //         description: "ID of the dashboard",
+      //       },
+      //       dashcard_id: {
+      //         type: "number",
+      //         description: "ID of the dashboard card",
+      //       },
+      //       card_id: {
+      //         type: "number",
+      //         description: "ID of the card",
+      //       },
+      //       export_format: {
+      //         type: "string",
+      //         description: "Export format (csv, xlsx, json)",
+      //         enum: ["csv", "xlsx", "json"],
+      //       },
+      //       parameters: {
+      //         type: "object",
+      //         description: "Query parameters",
+      //       },
+      //     },
+      //     required: ["dashboard_id", "dashcard_id", "card_id", "export_format"],
+      //   },
+      // },
+      // {
+      //   name: "get_dashboard_execute",
+      //   description: "Get execution status for a dashboard card",
+      //   inputSchema: {
+      //     type: "object",
+      //     properties: {
+      //       dashboard_id: {
+      //         type: "number",
+      //         description: "ID of the dashboard",
+      //       },
+      //       dashcard_id: {
+      //         type: "number",
+      //         description: "ID of the dashboard card",
+      //       },
+      //     },
+      //     required: ["dashboard_id", "dashcard_id"],
+      //   },
+      // },
+      // {
+      //   name: "post_dashboard_execute",
+      //   description: "Execute a dashboard card",
+      //   inputSchema: {
+      //     type: "object",
+      //     properties: {
+      //       dashboard_id: {
+      //         type: "number",
+      //         description: "ID of the dashboard",
+      //       },
+      //       dashcard_id: {
+      //         type: "number",
+      //         description: "ID of the dashboard card",
+      //       },
+      //       parameters: {
+      //         type: "object",
+      //         description: "Execution parameters",
+      //       },
+      //     },
+      //     required: ["dashboard_id", "dashcard_id"],
+      //   },
+      // },
       {
         name: "post_dashboard_public_link",
         description: "Create a public link for a dashboard",
@@ -529,24 +529,24 @@ export class DashboardToolHandlers {
           required: ["id"],
         },
       },
-      {
-        name: "get_dashboard_param_remapping",
-        description: "Get parameter remapping for a dashboard",
-        inputSchema: {
-          type: "object",
-          properties: {
-            id: {
-              type: "number",
-              description: "ID of the dashboard",
-            },
-            param_key: {
-              type: "string",
-              description: "Parameter key",
-            },
-          },
-          required: ["id", "param_key"],
-        },
-      },
+      // {
+      //   name: "get_dashboard_param_remapping",
+      //   description: "Get parameter remapping for a dashboard",
+      //   inputSchema: {
+      //     type: "object",
+      //     properties: {
+      //       id: {
+      //         type: "number",
+      //         description: "ID of the dashboard",
+      //       },
+      //       param_key: {
+      //         type: "string",
+      //         description: "Parameter key",
+      //       },
+      //     },
+      //     required: ["id", "param_key"],
+      //   },
+      // },
       {
         name: "get_dashboard_param_search",
         description: "Search dashboard parameter values",
@@ -842,7 +842,7 @@ export class DashboardToolHandlers {
 
     // Try different API approaches based on Metabase version
     let result;
-    
+
     try {
       // Approach 1: Direct POST to dashboard cards (works in some versions)
       const dashcardData = {
@@ -864,7 +864,7 @@ export class DashboardToolHandlers {
       // Approach 2: Use PUT to update entire dashboard cards array
       try {
         const dashboard = await this.client.getDashboard(dashboard_id);
-        
+
         // Create new card object for the dashboard
         const newCard = {
           id: -1, // Temporary ID for new cards
@@ -944,7 +944,7 @@ export class DashboardToolHandlers {
         const updatedCards = (dashboard.cards || []).filter(
           (card: any) => card.id !== dashcard_id
         );
-        
+
         await this.client.apiCall(
           "PUT",
           `/api/dashboard/${dashboard_id}/cards`,
@@ -981,7 +981,7 @@ export class DashboardToolHandlers {
     }
 
     let result;
-    
+
     try {
       // Approach 1: Direct PUT to specific card
       result = await this.client.apiCall(
@@ -1006,7 +1006,7 @@ export class DashboardToolHandlers {
           }
           return card;
         });
-        
+
         result = await this.client.apiCall(
           "PUT",
           `/api/dashboard/${dashboard_id}/cards`,
@@ -1039,7 +1039,7 @@ export class DashboardToolHandlers {
 
   private async getDashboardParamsValidFilterFields(args: any): Promise<any> {
     const { filtered, filtering } = args;
-    
+
     if (!filtered || !Array.isArray(filtered)) {
       throw new McpError(ErrorCode.InvalidParams, "filtered parameter is required and must be an array");
     }

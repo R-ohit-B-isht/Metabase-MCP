@@ -54,19 +54,14 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 - ✅ `delete_card` - Delete/archive a question/card
 - ✅ `execute_card` - Execute a card and get results
 
-#### Database Operations
-
-- `list_databases` - List all databases in Metabase
-- `execute_query` - Execute a SQL query against a database
-
 ### Collections Management
 
 - ✅ `list_collections` - List all collections
 - ✅ `create_collection` - Create a new collection
-- `update_collection` - Update an existing collection
-- `delete_collection` - Delete a collection
-- `get_collection_items` - Get all items in a collection
-- `move_to_collection` - Move items between collections
+- ✅`update_collection` - Update an existing collection
+- ✅`delete_collection` - Delete a collection
+- ✅`get_collection_items` - Get all items in a collection
+- ✅`move_to_collection` - Move items between collections
 
 ### User & Permission Management
 
@@ -95,16 +90,6 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 - `disable_public_link` - Disable public sharing
 - `get_public_link` - Get public link information
 
-### Database Schema Operations
-
-- `get_database_schema` - Get database schema information
-- `get_database_tables` - Get all tables in a database
-- `get_table_metadata` - Get table metadata
-- `get_table_fields` - Get all fields in a table
-- `get_field_values` - Get field values
-- `get_field_summary` - Get field summary statistics
-- `analyze_field_values` - Analyze field values
-
 ### Search & Discovery
 
 - ✅ `search_content` - Search across all Metabase content
@@ -123,27 +108,27 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 - ✅ `get_dashboard_cards` - Get all cards in a dashboard
 
 #### Dashboard Card Management (Preserved)
-- ✅ `add_card_to_dashboard` - Add a card to a dashboard with positioning
+- ⏳ `add_card_to_dashboard` - Add a card to a dashboard with positioning
 - ✅ `remove_card_from_dashboard` - Remove a card from a dashboard
 - ✅ `update_dashboard_card` - Update card position, size, and settings
 
 #### Dashboard Embedding & Public Access
-- ✅ `get_dashboard_embeddable` - Get embeddable dashboards
+- ⏳ `get_dashboard_embeddable` - Get embeddable dashboards
 - ✅ `get_dashboard_public` - Get public dashboards
 - ✅ `post_dashboard_public_link` - Create a public link for a dashboard
 - ✅ `delete_dashboard_public_link` - Delete a public link for a dashboard
 
 #### Dashboard Queries & Execution
-- ✅ `post_dashboard_query` - Execute a query for a dashboard card
-- ✅ `post_dashboard_query_export` - Export dashboard card query results in specified format
-- ✅ `post_dashboard_pivot_query` - Execute a pivot query for a dashboard card
-- ✅ `get_dashboard_execute` - Get execution status for a dashboard card
-- ✅ `post_dashboard_execute` - Execute a dashboard card
+- ⏳ `post_dashboard_query` - Execute a query for a dashboard card
+- ⏳ `post_dashboard_query_export` - Export dashboard card query results in specified format
+- ⏳ `post_dashboard_pivot_query` - Execute a pivot query for a dashboard card
+- ⏳ `get_dashboard_execute` - Get execution status for a dashboard card
+- ⏳ `post_dashboard_execute` - Execute a dashboard card
 
 #### Dashboard Parameters & Filtering
-- ✅ `get_dashboard_params_valid_filter_fields` - Get valid filter fields for dashboard parameters
-- ✅ `get_dashboard_param_remapping` - Get parameter remapping for a dashboard
-- ✅ `get_dashboard_param_search` - Search dashboard parameter values
+- ⏳ `get_dashboard_params_valid_filter_fields` - Get valid filter fields for dashboard parameters
+- ⏳ `get_dashboard_param_remapping` - Get parameter remapping for a dashboard
+- ⏳ `get_dashboard_param_search` - Search dashboard parameter values
 - ✅ `get_dashboard_param_values` - Get parameter values for a dashboard
 
 #### Dashboard Management & Operations
@@ -169,9 +154,9 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 
 #### Core Database Operations
 - ✅ `list_databases` - List all databases in Metabase (simplified version)
-- ✅ `create_database` - Create a new database connection
+- ⏳ `create_database` - Create a new database connection
 - ✅ `create_sample_database` - Create a sample database for testing
-- ✅ `validate_database` - Validate database connection settings
+- ⏳ `validate_database` - Validate database connection settings
 - ✅ `get_database` - Get details of a specific database
 - ✅ `update_database` - Update database connection settings
 - ✅ `delete_database` - Delete a database connection
@@ -179,6 +164,7 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 
 #### Database Schema & Metadata
 - ✅ `get_database_schema_tables` - Get all tables in a database
+- ⏳ `get_database_schema_tables_without_schema` - Get tables without schema
 - ✅ `get_database_schema_tables_for_schema` - Get tables for a specific schema
 - ✅ `get_database_schemas` - Get all schemas in a database
 - ✅ `get_database_metadata` - Get complete database metadata
@@ -195,15 +181,15 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 - ✅ `dismiss_database_spinner` - Dismiss database loading spinner
 
 #### Autocomplete & Suggestions
-- ✅ `get_database_autocomplete_suggestions` - Get autocomplete suggestions for database queries
-- ✅ `get_database_card_autocomplete_suggestions` - Get card-specific autocomplete suggestions
+- ⏳ `get_database_autocomplete_suggestions` - Get autocomplete suggestions for database queries
+- ⏳ `get_database_card_autocomplete_suggestions` - Get card-specific autocomplete suggestions
 
 #### Virtual Database Operations
-- ✅ `get_virtual_database_datasets` - Get datasets from virtual databases
-- ✅ `get_virtual_database_datasets_for_schema` - Get datasets for a specific virtual schema
-- ✅ `get_virtual_database_metadata` - Get virtual database metadata
-- ✅ `get_virtual_database_schema_tables` - Get tables from virtual database schema
-- ✅ `get_virtual_database_schemas` - Get all schemas from virtual databases
+- ⏳ `get_virtual_database_datasets` - Get datasets from virtual databases
+- ⏳ `get_virtual_database_datasets_for_schema` - Get datasets for a specific virtual schema
+- ⏳ `get_virtual_database_metadata` - Get virtual database metadata
+- ⏳ `get_virtual_database_schema_tables` - Get tables from virtual database schema
+- ⏳ `get_virtual_database_schemas` - Get all schemas from virtual databases
 
 ### Settings & Configuration
 

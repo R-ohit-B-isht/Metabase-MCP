@@ -39,7 +39,7 @@
     "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\" && mkdir -p dist && cp -r build/* dist/",
     "watch": "tsc --watch",
     "inspector": "npx @modelcontextprotocol/inspector dist/index.js",
-    "start": "node dist/index.js",
+    "start": "node dist/index.js --port=8080",
     "dev": "npm run build && npm start",
     "clean": "rm -rf build dist",
     "test": "npm run build && echo 'Tests would go here'",
@@ -51,7 +51,9 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^0.6.1",
     "abort-controller": "^3.0.0",
-    "axios": "^1.8.2"
+    "axios": "^1.8.2",
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.17.22",

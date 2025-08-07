@@ -53,59 +53,59 @@ export class DatabaseToolHandlers {
                     }
                 }
             },
-            {
-                name: "create_database",
-                description: "Add a new Database connection",
-                inputSchema: {
-                    type: "object",
-                    properties: {
-                        name: {
-                            type: "string",
-                            minLength: 1,
-                            description: "Name of the database connection"
-                        },
-                        engine: {
-                            type: "string",
-                            minLength: 1,
-                            description: "Database engine (e.g., 'postgres', 'mysql', 'h2')"
-                        },
-                        details: {
-                            type: "object",
-                            description: "Connection details (host, port, dbname, user, etc.)"
-                        },
-                        auto_run_queries: {
-                            type: "boolean",
-                            description: "Whether to auto-run queries"
-                        },
-                        cache_ttl: {
-                            type: "integer",
-                            minimum: 1,
-                            description: "Cache TTL in seconds"
-                        },
-                        connection_source: {
-                            type: "string",
-                            enum: ["admin", "setup"],
-                            default: "admin",
-                            description: "Connection source"
-                        },
-                        is_full_sync: {
-                            type: "boolean",
-                            default: true,
-                            description: "Whether to perform full schema sync"
-                        },
-                        is_on_demand: {
-                            type: "boolean",
-                            default: false,
-                            description: "Whether this is an on-demand database"
-                        },
-                        schedules: {
-                            type: "object",
-                            description: "Schedule configuration for sync and analysis"
-                        }
-                    },
-                    required: ["name", "engine", "details"]
-                }
-            },
+            // {
+            //   name: "create_database",
+            //   description: "Add a new Database connection",
+            //   inputSchema: {
+            //     type: "object",
+            //     properties: {
+            //       name: {
+            //         type: "string",
+            //         minLength: 1,
+            //         description: "Name of the database connection"
+            //       },
+            //       engine: {
+            //         type: "string", 
+            //         minLength: 1,
+            //         description: "Database engine (e.g., 'postgres', 'mysql', 'h2')"
+            //       },
+            //       details: {
+            //         type: "object",
+            //         description: "Connection details (host, port, dbname, user, etc.)"
+            //       },
+            //       auto_run_queries: {
+            //         type: "boolean",
+            //         description: "Whether to auto-run queries"
+            //       },
+            //       cache_ttl: {
+            //         type: "integer",
+            //         minimum: 1,
+            //         description: "Cache TTL in seconds"
+            //       },
+            //       connection_source: {
+            //         type: "string",
+            //         enum: ["admin", "setup"],
+            //         default: "admin",
+            //         description: "Connection source"
+            //       },
+            //       is_full_sync: {
+            //         type: "boolean",
+            //         default: true,
+            //         description: "Whether to perform full schema sync"
+            //       },
+            //       is_on_demand: {
+            //         type: "boolean", 
+            //         default: false,
+            //         description: "Whether this is an on-demand database"
+            //       },
+            //       schedules: {
+            //         type: "object",
+            //         description: "Schedule configuration for sync and analysis"
+            //       }
+            //     },
+            //     required: ["name", "engine", "details"]
+            //   }
+            // },
             {
                 name: "create_sample_database",
                 description: "Add the sample database as a new Database",
@@ -114,20 +114,20 @@ export class DatabaseToolHandlers {
                     properties: {}
                 }
             },
-            {
-                name: "validate_database",
-                description: "Validate that we can connect to a database given a set of details",
-                inputSchema: {
-                    type: "object",
-                    properties: {
-                        details: {
-                            type: "object",
-                            description: "Database connection details to validate"
-                        }
-                    },
-                    required: ["details"]
-                }
-            },
+            // {
+            //   name: "validate_database",
+            //   description: "Validate that we can connect to a database given a set of details",
+            //   inputSchema: {
+            //     type: "object",
+            //     properties: {
+            //       details: {
+            //         type: "object",
+            //         description: "Database connection details to validate"
+            //       }
+            //     },
+            //     required: ["details"]
+            //   }
+            // },
             {
                 name: "get_database",
                 description: "Get a single Database with id. Optionally include tables and fields.",
@@ -233,36 +233,40 @@ export class DatabaseToolHandlers {
                     required: ["id"]
                 }
             },
-            {
-                name: "get_database_autocomplete_suggestions",
-                description: "Return a list of autocomplete suggestions for a database",
-                inputSchema: {
-                    type: "object",
-                    properties: {
-                        id: {
-                            type: "integer",
-                            minimum: 1,
-                            description: "Database ID"
-                        }
-                    },
-                    required: ["id"]
-                }
-            },
-            {
-                name: "get_database_card_autocomplete_suggestions",
-                description: "Return a list of autocomplete suggestions for a database based on saved cards",
-                inputSchema: {
-                    type: "object",
-                    properties: {
-                        id: {
-                            type: "integer",
-                            minimum: 1,
-                            description: "Database ID"
-                        }
-                    },
-                    required: ["id"]
-                }
-            },
+            // {
+            //   name: "get_database_autocomplete_suggestions",
+            //   description: "Return a list of autocomplete suggestions for a database",
+            //   inputSchema: {
+            //     type: "object",
+            //     properties: {
+            //       id: {
+            //         type: "integer",
+            //         minimum: 1,
+            //         description: "Database ID"
+            //       }
+            //     },
+            //     required: ["id"]
+            //   }
+            // },
+            // {
+            //   name: "get_database_card_autocomplete_suggestions", 
+            //   description: "Return a list of autocomplete suggestions for a database based on saved cards",
+            //   inputSchema: {
+            //     type: "object",
+            //     properties: {
+            //       id: {
+            //         type: "integer",
+            //         minimum: 1,
+            //         description: "Database ID"
+            //       },
+            //       prefix: {
+            //         type: "string",
+            //         description: "Prefix to filter suggestions" 
+            //       }
+            //     },
+            //     required: ["id", "prefix"]
+            //   }
+            // },
             {
                 name: "discard_database_field_values",
                 description: "Discard the FieldValues belonging to this Database",
@@ -368,9 +372,34 @@ export class DatabaseToolHandlers {
                     required: ["id"]
                 }
             },
+            //       {
+            //   name: "get_database_schema_tables_without_schema",
+            //   description: "Return a list of Tables for a Database whose schema is nil or empty string",
+            //   inputSchema: {
+            //     type: "object",
+            //     properties: {
+            //       id: {
+            //         type: "integer",
+            //         minimum: 1,
+            //         description: "Database ID"
+            //       },
+            //       include_hidden: {
+            //         type: "boolean",
+            //         default: false,
+            //         description: "Include hidden tables"
+            //       },
+            //       include_editable_data_model: {
+            //         type: "boolean",
+            //         default: false,
+            //         description: "Only include tables for which the current user has data model editing permissions"
+            //       }
+            //     },
+            //     required: ["id"]
+            //   }
+            // },
             {
                 name: "get_database_schema_tables",
-                description: "Return a list of Tables for a Database whose schema is nil or empty string",
+                description: "Returns a list of all the schemas with tables found for the database id. Excludes schemas with no tables.",
                 inputSchema: {
                     type: "object",
                     properties: {
@@ -382,12 +411,12 @@ export class DatabaseToolHandlers {
                         include_hidden: {
                             type: "boolean",
                             default: false,
-                            description: "Include hidden tables"
+                            description: "Include hidden schemas"
                         },
                         include_editable_data_model: {
                             type: "boolean",
                             default: false,
-                            description: "Only include tables for which the current user has data model editing permissions"
+                            description: "Only include schemas for which the current user has data model editing permissions"
                         }
                     },
                     required: ["id"]
@@ -492,84 +521,84 @@ export class DatabaseToolHandlers {
                     required: ["id"]
                 }
             },
-            {
-                name: "get_virtual_database_datasets",
-                description: "Returns a list of all the datasets found for the saved questions virtual database",
-                inputSchema: {
-                    type: "object",
-                    properties: {
-                        virtual_db: {
-                            type: "string",
-                            description: "Virtual database identifier"
-                        }
-                    },
-                    required: ["virtual_db"]
-                }
-            },
-            {
-                name: "get_virtual_database_datasets_for_schema",
-                description: "Returns a list of Tables for the datasets virtual database",
-                inputSchema: {
-                    type: "object",
-                    properties: {
-                        virtual_db: {
-                            type: "string",
-                            description: "Virtual database identifier"
-                        },
-                        schema: {
-                            type: "string",
-                            description: "Schema name"
-                        }
-                    },
-                    required: ["virtual_db", "schema"]
-                }
-            },
-            {
-                name: "get_virtual_database_metadata",
-                description: "Endpoint that provides metadata for the Saved Questions 'virtual' database",
-                inputSchema: {
-                    type: "object",
-                    properties: {
-                        virtual_db: {
-                            type: "string",
-                            description: "Virtual database identifier"
-                        }
-                    },
-                    required: ["virtual_db"]
-                }
-            },
-            {
-                name: "get_virtual_database_schema_tables",
-                description: "Returns a list of Tables for the saved questions virtual database",
-                inputSchema: {
-                    type: "object",
-                    properties: {
-                        virtual_db: {
-                            type: "string",
-                            description: "Virtual database identifier"
-                        },
-                        schema: {
-                            type: "string",
-                            description: "Schema name"
-                        }
-                    },
-                    required: ["virtual_db", "schema"]
-                }
-            },
-            {
-                name: "get_virtual_database_schemas",
-                description: "Returns a list of all the schemas found for the saved questions virtual database",
-                inputSchema: {
-                    type: "object",
-                    properties: {
-                        virtual_db: {
-                            type: "string",
-                            description: "Virtual database identifier"
-                        }
-                    },
-                    required: ["virtual_db"]
-                }
-            },
+            // {
+            //   name: "get_virtual_database_datasets",
+            //   description: "Returns a list of all the datasets found for the saved questions virtual database",
+            //   inputSchema: {
+            //     type: "object",
+            //     properties: {
+            //       virtual_db: {
+            //         type: "string",
+            //         description: "Virtual database identifier"
+            //       }
+            //     },
+            //     required: ["virtual_db"]
+            //   }
+            // },
+            // {
+            //   name: "get_virtual_database_datasets_for_schema",
+            //   description: "Returns a list of Tables for the datasets virtual database",
+            //   inputSchema: {
+            //     type: "object",
+            //     properties: {
+            //       virtual_db: {
+            //         type: "string",
+            //         description: "Virtual database identifier"
+            //       },
+            //       schema: {
+            //         type: "string",
+            //         description: "Schema name"
+            //       }
+            //     },
+            //     required: ["virtual_db", "schema"]
+            //   }
+            // },
+            // {
+            //   name: "get_virtual_database_metadata",
+            //   description: "Endpoint that provides metadata for the Saved Questions 'virtual' database",
+            //   inputSchema: {
+            //     type: "object",
+            //     properties: {
+            //       virtual_db: {
+            //         type: "string",
+            //         description: "Virtual database identifier"
+            //       }
+            //     },
+            //     required: ["virtual_db"]
+            //   }
+            // },
+            // {
+            //   name: "get_virtual_database_schema_tables",
+            //   description: "Returns a list of Tables for the saved questions virtual database",
+            //   inputSchema: {
+            //     type: "object",
+            //     properties: {
+            //       virtual_db: {
+            //         type: "string",
+            //         description: "Virtual database identifier"
+            //       },
+            //       schema: {
+            //         type: "string",
+            //         description: "Schema name"
+            //       }
+            //     },
+            //     required: ["virtual_db", "schema"]
+            //   }
+            // },
+            // {
+            //   name: "get_virtual_database_schemas",
+            //   description: "Returns a list of all the schemas found for the saved questions virtual database",
+            //   inputSchema: {
+            //     type: "object",
+            //     properties: {
+            //       virtual_db: {
+            //         type: "string",
+            //         description: "Virtual database identifier"
+            //       }
+            //     },
+            //     required: ["virtual_db"]
+            //   }
+            // },
             {
                 name: "execute_query",
                 description: "Execute a SQL query against a Metabase database",
@@ -626,6 +655,8 @@ export class DatabaseToolHandlers {
                 return await this.getDatabaseMetadata(args);
             case "rescan_database_field_values":
                 return await this.rescanDatabaseFieldValues(args);
+            case "get_database_schema_tables_without_schema":
+                return await this.getDatabaseSchemaTablesWithoutSchema(args);
             case "get_database_schema_tables":
                 return await this.getDatabaseSchemaTables(args);
             case "get_database_schema_tables_for_schema":
@@ -799,11 +830,20 @@ export class DatabaseToolHandlers {
         };
     }
     async getDatabaseCardAutocompleteSuggestions(args) {
-        const { id } = args;
+        const { id, prefix } = args;
         if (!id) {
             throw new McpError(ErrorCode.InvalidParams, "Database ID is required");
         }
-        const suggestions = await this.client.apiCall("GET", `/api/database/${id}/card_autocomplete_suggestions`);
+        if (!prefix) {
+            throw new McpError(ErrorCode.InvalidParams, "Prefix is required");
+        }
+        const params = new URLSearchParams();
+        params.append('prefix', prefix);
+        // Changed the endpoint URL to match Metabase's API
+        const url = `/api/database/${id}/card_autocomplete_suggestions`;
+        const suggestions = await this.client.apiCall("GET", url, {
+            prefix: prefix
+        });
         return {
             content: [
                 {
@@ -918,7 +958,7 @@ export class DatabaseToolHandlers {
             ],
         };
     }
-    async getDatabaseSchemaTables(args) {
+    async getDatabaseSchemaTablesWithoutSchema(args) {
         const { id } = args;
         if (!id) {
             throw new McpError(ErrorCode.InvalidParams, "Database ID is required");
@@ -935,6 +975,31 @@ export class DatabaseToolHandlers {
                 {
                     type: "text",
                     text: JSON.stringify(tables, null, 2),
+                },
+            ],
+        };
+    }
+    async getDatabaseSchemaTables(args) {
+        const { id } = args;
+        if (!id) {
+            throw new McpError(ErrorCode.InvalidParams, "Database ID is required");
+        }
+        const params = new URLSearchParams();
+        if (args.include_hidden !== undefined) {
+            params.append('include_hidden', args.include_hidden.toString());
+        }
+        if (args.include_editable_data_model !== undefined) {
+            params.append('include_editable_data_model', args.include_editable_data_model.toString());
+        }
+        // Changed URL to match Metabase's API endpoint
+        const url = `/api/database/${id}/schemas`;
+        const finalUrl = params.toString() ? `${url}?${params.toString()}` : url;
+        const schemas = await this.client.apiCall("GET", finalUrl);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(schemas, null, 2),
                 },
             ],
         };
