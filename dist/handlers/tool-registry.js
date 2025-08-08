@@ -8,12 +8,14 @@ import { TableToolHandlers } from "./table-tools.js";
 import { ErrorCode, McpError } from "../types/errors.js";
 export class ToolRegistry {
     client;
+    filterOptions;
     dashboardHandlers;
     cardHandlers;
     databaseHandlers;
     tableHandlers;
-    constructor(client) {
+    constructor(client, filterOptions) {
         this.client = client;
+        this.filterOptions = filterOptions;
         this.dashboardHandlers = new DashboardToolHandlers(client);
         this.cardHandlers = new CardToolHandlers(client);
         this.databaseHandlers = new DatabaseToolHandlers(client);
@@ -23,14 +25,14 @@ export class ToolRegistry {
      * Get all available tool schemas
      */
     getAllToolSchemas() {
-        return [
+        const allTools = [
             ...this.dashboardHandlers.getToolSchemas(),
             ...this.cardHandlers.getToolSchemas(),
             ...this.databaseHandlers.getToolSchemas(),
             ...this.tableHandlers.getToolSchemas(),
-            // Add other tool schemas for collections, users, etc.
             ...this.getAdditionalToolSchemas(),
         ];
+        return this.filterTools(allTools);
     }
     /**
      * Handle a tool call
@@ -801,5 +803,78 @@ export class ToolRegistry {
                 },
             ],
         };
+    }
+    filterTools(tools) {
+        if (!this.filterOptions) {
+            return tools.filter(tool => this.isEssentialTool(tool.name) && !this.isWriteTool(tool.name));
+        }
+        // Handle --write flag only (show essential + write tools = 45 total)
+        if (this.filterOptions.includeWriteTools && !this.filterOptions.includeAllTools) {
+            return tools.filter(tool => this.isEssentialTool(tool.name) || this.isWriteTool(tool.name));
+        }
+        // Handle --all-tools flag only (show all 94 tools)
+        if (this.filterOptions.includeAllTools && !this.filterOptions.includeWriteTools) {
+            return tools;
+        }
+        // Handle both flags together (show all 94 tools)
+        if (this.filterOptions.includeWriteTools && this.filterOptions.includeAllTools) {
+            return tools;
+        }
+        return tools.filter(tool => this.isEssentialTool(tool.name) && !this.isWriteTool(tool.name));
+    }
+    isWriteTool(toolName) {
+        const writePlusTools = new Set([
+            'create_dashboard',
+            'update_dashboard',
+            'delete_dashboard',
+            'remove_card_from_dashboard',
+            'update_dashboard_card',
+            'post_dashboard_save',
+            'post_dashboard_query',
+            'post_dashboard_query_export',
+            'put_dashboard_cards',
+            'create_card',
+            'update_card',
+            'delete_card',
+            'move_cards',
+            'move_cards_to_collection',
+            'copy_card',
+            'create_database',
+            'validate_database',
+            'update_database',
+            'delete_database',
+            'update_table',
+            'reorder_table_fields',
+            'create_collection',
+            'update_collection',
+            'delete_collection',
+            'move_to_collection'
+        ]);
+        return writePlusTools.has(toolName);
+    }
+    isEssentialTool(toolName) {
+        const essentialTools = new Set([
+            'list_dashboards',
+            'get_dashboard',
+            'get_dashboard_cards',
+            'get_dashboard_items',
+            'list_cards',
+            'execute_card',
+            'get_card_dashboards',
+            'list_databases',
+            'get_database',
+            'get_database_schema_tables',
+            'get_database_schema_tables_for_schema',
+            'get_database_schemas',
+            'execute_query',
+            'list_tables',
+            'get_table',
+            'list_collections',
+            'get_collection_items',
+            'list_users',
+            'list_permission_groups',
+            'search_content'
+        ]);
+        return essentialTools.has(toolName);
     }
 }

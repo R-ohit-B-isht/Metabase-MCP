@@ -98,3 +98,8 @@ export interface QueryResult {
   row_count?: number;
   running_time?: number;
 }
+
+export interface ToolFilterOptions {
+  includeWriteTools: boolean;
+  includeAllTools: boolean;
+}
