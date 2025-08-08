@@ -8,7 +8,6 @@ global.AbortController = global.AbortController || AbortController;
  * Metabase MCP Server
  *
  * A comprehensive Model Context Protocol server for Metabase integration.
- * Developed by EaseCloud Technologies (https://easecloud.io)
  *
  * This server implements interaction with Metabase API, providing comprehensive functionality for:
  * - Dashboard management and operations
@@ -18,9 +17,6 @@ global.AbortController = global.AbortController || AbortController;
  * - Collections and content organization
  * - Analytics and monitoring
  *
- * @author EaseCloud Technologies <info@easecloud.io>
- * @license MIT
- * @version 0.1.0
  */
 
 import { MetabaseServer } from "./server.js";

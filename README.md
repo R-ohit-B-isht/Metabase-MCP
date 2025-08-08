@@ -1,11 +1,6 @@
 # metabase-server MCP Server
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub](https://img.shields.io/badge/GitHub-easecloudio%2Fmcp--metabase--server-blue)](https://github.com/easecloudio/mcp-metabase-server)
-
 A comprehensive Model Context Protocol server for Metabase integration.
-
-**Developed by [EaseCloud Technologies](https://easecloud.io)**
 
 This is a TypeScript-based MCP server that implements full integration with Metabase API. It allows AI assistants to interact with Metabase, providing comprehensive access to:
 
@@ -14,11 +9,13 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 - **User & Permission Management**: Complete user lifecycle and permission system control
 - **Database Management**: Connection management, schema sync, and metadata exploration
 - **Analytics & Monitoring**: Usage statistics, activity tracking, and system health monitoring
-- **Advanced Query Features**: Export, bookmarking, public sharing, and complex query execution
+- **Advanced Query Features**: Bookmarking, public sharing, and complex query execution
 - **Search & Discovery**: Global search, popular items, and content recommendations
 - **Settings & Configuration**: System settings and instance configuration management
 
-## **70+ Tools Available** covering all major Metabase functionality for enterprise usage.
+## **80+ Tools Available** covering all major Metabase functionality for enterprise usage.
+
+**Recent Update**: Database tools have been completely revamped with 31 official Metabase API endpoints, replacing previous incorrect implementations with accurate descriptions and parameters from official documentation.
 
 ## Features
 
@@ -38,43 +35,53 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 
 #### Dashboard Management
 
-- `list_dashboards` - List all dashboards in Metabase
-- `create_dashboard` - Create a new dashboard
-- `update_dashboard` - Update an existing dashboard
-- `delete_dashboard` - Delete/archive a dashboard
-- `get_dashboard_cards` - Get all cards in a dashboard
+- ✅ `list_dashboards` - List all dashboards in Metabase
+- ✅ `create_dashboard` - Create a new dashboard
+- ✅ `update_dashboard` - Update an existing dashboard
+- ✅ `delete_dashboard` - Delete/archive a dashboard
+- ✅ `get_dashboard_cards` - Get all cards in a dashboard
 
 #### Card/Question Management
 
-- `list_cards` - List all questions/cards in Metabase
-- `create_card` - Create a new question/card
-- `update_card` - Update an existing question/card
-- `delete_card` - Delete/archive a question/card
-- `execute_card` - Execute a card and get results
-
-#### Database Operations
-
-- `list_databases` - List all databases in Metabase
-- `execute_query` - Execute a SQL query against a database
+- ✅ `list_cards` - List all questions/cards in Metabase
+- ✅ `create_card` - Create a new question/card
+- ✅ `update_card` - Update an existing question/card
+- ✅ `delete_card` - Delete/archive a question/card
+- ✅ `execute_card` - Execute a card and get results
+- ✅ `move_cards` - Move multiple cards to a collection or dashboard
+- ✅ `move_cards_to_collection` - Bulk update endpoint for Card Collections. Move a set of Cards into a Collection or remove them from Collections
+- ✅ `get_embeddable_cards` - Get all embeddable cards
+- ✅ `execute_pivot_card_query` - Execute a pivot query for a card
+- ✅ `get_public_cards` - Get all public cards
+- ✅ `get_card_param_values` - Get values for a card parameter
+- ✅ `search_card_param_values` - Search values for a card parameter
+- ✅ `get_card_param_remapping` - Get parameter remapping for a card
+- ✅ `create_card_public_link` - Create a public link for a card
+- ✅ `delete_card_public_link` - Delete a public link for a card
+- ✅ `execute_card_query_with_format` - Execute a card query with a specific export format
+- ✅ `copy_card` - Create a copy of a card
+- ✅ `get_card_dashboards` - Get all dashboards containing a card
+- ✅ `get_card_query_metadata` - Get query metadata for a card
+- ✅ `get_card_series` - Get series data for a card
 
 ### Collections Management
 
-- `list_collections` - List all collections
-- `create_collection` - Create a new collection
-- `update_collection` - Update an existing collection
-- `delete_collection` - Delete a collection
-- `get_collection_items` - Get all items in a collection
-- `move_to_collection` - Move items between collections
+- ✅ `list_collections` - List all collections
+- ✅ `create_collection` - Create a new collection
+- ✅`update_collection` - Update an existing collection
+- ✅`delete_collection` - Delete a collection
+- ✅`get_collection_items` - Get all items in a collection
+- ✅`move_to_collection` - Move items between collections
 
 ### User & Permission Management
 
-- `list_users` - List all users
-- `create_user` - Create a new user
+- ✅ `list_users` - List all users
+- ✅ `create_user` - Create a new user
 - `update_user` - Update user details
 - `delete_user` - Deactivate a user
 - `list_permissions` - List permission groups and permissions
-- `list_permission_groups` - List all permission groups
-- `create_permission_group` - Create a new permission group
+- ✅ `list_permission_groups` - List all permission groups
+- ✅ `create_permission_group` - Create a new permission group
 - `update_permission_group` - Update a permission group
 - `delete_permission_group` - Delete a permission group
 - `add_user_to_group` - Add user to permission group
@@ -82,8 +89,6 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 
 ### Advanced Query Features
 
-- `export_card_results` - Export card results to CSV/JSON/Excel
-- `export_dashboard_data` - Export dashboard data to various formats
 - `bookmark_card` - Bookmark a card
 - `unbookmark_card` - Remove card bookmark
 - `bookmark_dashboard` - Bookmark a dashboard
@@ -93,33 +98,64 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 - `disable_public_link` - Disable public sharing
 - `get_public_link` - Get public link information
 
-### Database Schema Operations
-
-- `get_database_schema` - Get database schema information
-- `get_database_tables` - Get all tables in a database
-- `get_table_metadata` - Get table metadata
-- `get_table_fields` - Get all fields in a table
-- `get_field_values` - Get field values
-- `get_field_summary` - Get field summary statistics
-- `analyze_field_values` - Analyze field values
-
 ### Search & Discovery
 
-- `search_content` - Search across all Metabase content
-- `get_recent_items` - Get recently viewed items
-- `get_popular_items` - Get most popular cards and dashboards
+- ✅ `search_content` - Search across all Metabase content
 
-### Advanced Dashboard Features
+### Activity & Recent Items (5 Tools - New Implementation)
 
-- `add_card_to_dashboard` - Add a card to a dashboard with positioning
-- `remove_card_from_dashboard` - Remove a card from a dashboard
-- `update_dashboard_card` - Update card position, size, and settings
-- `get_dashboard_parameters` - Get dashboard parameters
-- `update_dashboard_parameters` - Update dashboard parameters
-- `create_dashboard_subscription` - Create dashboard subscriptions/alerts
-- `list_dashboard_subscriptions` - List all dashboard subscriptions
-- `update_dashboard_subscription` - Update subscription settings
-- `delete_dashboard_subscription` - Delete a dashboard subscription
+**Note: Activity tools have been newly implemented with official Metabase API endpoints.**
+
+- ✅ `get_most_recently_viewed_dashboard` - Get the most recently viewed dashboard
+- ✅ `get_popular_items` - Get popular items in Metabase
+- ✅ `get_recent_views` - Get recent views activity
+- ✅ `get_recents` - Get recent activity items
+- ✅ `post_recents` - Post recent activity data
+
+### Advanced Dashboard Features (33 Tools - Updated with Official Metabase API Endpoints)
+
+**Note: Dashboard tools have been completely updated with 25+ new official Metabase API endpoints while preserving all existing functionality.**
+
+#### Core Dashboard Operations (Preserved)
+- ✅ `list_dashboards` - List all dashboards in Metabase
+- ✅ `create_dashboard` - Create a new Metabase dashboard
+- ✅ `update_dashboard` - Update an existing Metabase dashboard
+- ✅ `delete_dashboard` - Delete a Metabase dashboard
+- ✅ `get_dashboard_cards` - Get all cards in a dashboard
+
+#### Dashboard Card Management (Preserved)
+- ❌ `add_card_to_dashboard`(depriciated) - Add a card to a dashboard with positioning
+- ✅ `remove_card_from_dashboard` - Remove a card from a dashboard
+- ✅ `update_dashboard_card` - Update card position, size, and settings
+
+#### Dashboard Embedding & Public Access
+- ✅ `get_dashboard_embeddable` - Get embeddable dashboards
+- ✅ `get_dashboard_public` - Get public dashboards
+- ✅ `post_dashboard_public_link` - Create a public link for a dashboard
+- ✅ `delete_dashboard_public_link` - Delete a public link for a dashboard
+
+#### Dashboard Queries & Execution
+- ✅ `post_dashboard_query` - Execute a query for a dashboard card
+- ✅ `post_dashboard_query_export` - Export dashboard card query results in specified format
+- ⏳ `post_dashboard_pivot_query` - Execute a pivot query for a dashboard card
+- ❌ `get_dashboard_execute` - Get execution status for a dashboard card
+- ❌ `post_dashboard_execute` - Execute a dashboard card
+
+#### Dashboard Parameters & Filtering
+- ✅ `get_dashboard_params_valid_filter_fields` - Get valid filter fields for dashboard parameters
+- ✅ `get_dashboard_param_remapping` - Get parameter remapping for a dashboard
+- ✅ `get_dashboard_param_search` - Search dashboard parameter values
+- ✅ `get_dashboard_param_values` - Get parameter values for a dashboard
+
+#### Dashboard Management & Operations
+- ✅ `post_dashboard_save` - Save a dashboard
+- ⏳ `post_dashboard_save_to_collection` - Save a dashboard to a specific collection
+- ✅ `post_dashboard_copy` - Copy a dashboard
+- ✅ `get_dashboard` - Get a specific dashboard by ID
+- ✅ `put_dashboard_cards` - Update dashboard cards configuration
+- ✅ `get_dashboard_items` - Get dashboard items
+- ✅ `get_dashboard_query_metadata` - Get query metadata for a dashboard
+- ✅ `get_dashboard_related` - Get related content for a dashboard
 
 ### Analytics & Monitoring
 
@@ -128,17 +164,94 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 - `get_system_usage_stats` - Get system-wide usage statistics
 - `get_system_health` - Get system health status
 
-### Database Connection Management
+### Database Management (31 Tools - Updated with Official Metabase API Endpoints)
 
-- `create_database_connection` - Create new database connections
-- `test_database_connection` - Test database connectivity
-- `sync_database_schema` - Sync database schema metadata
-- `get_database_sync_status` - Get database schema sync status
+**Note: Database tools have been completely revamped to use official Metabase API endpoints with correct descriptions and parameters.**
+
+#### Core Database Operations
+- ✅ `list_databases` - List all databases in Metabase (simplified version)
+- ❌ `create_database` - Create a new database connection
+- ✅ `create_sample_database` - Create a sample database for testing
+- ❌ `validate_database` - Validate database connection settings
+- ✅ `get_database` - Get details of a specific database
+- ✅ `update_database` - Update database connection settings
+- ✅ `delete_database` - Delete a database connection
+- ✅ `execute_query` - Execute SQL queries against a database with parameters
+- ✅ `execute_query_export` - Execute a query and download the result data as a file in the specified format (CSV, JSON, XLSX, etc.)
+
+#### Database Schema & Metadata
+- ✅ `get_database_schema_tables` - Get all tables in a database
+- ⏳ `get_database_schema_tables_without_schema` - Get tables without schema
+- ✅ `get_database_schema_tables_for_schema` - Get tables for a specific schema
+- ✅ `get_database_schemas` - Get all schemas in a database
+- ✅ `get_database_metadata` - Get complete database metadata
+- ✅ `get_database_fields` - Get all fields in a database
+- ✅ `get_database_id_fields` - Get ID fields for a database
+- ✅ `sync_database_schema` - Sync database schema metadata
+- ✅ `get_database_syncable_schemas` - Get schemas available for syncing
+
+#### Database Operations & Maintenance
+- ✅ `get_database_healthcheck` - Check database connection health
+- ✅ `get_database_usage_info` - Get database usage statistics
+- ✅ `rescan_database_field_values` - Rescan field values for a database
+- ✅ `discard_database_field_values` - Discard cached field values
+- ✅ `dismiss_database_spinner` - Dismiss database loading spinner
+
+#### Autocomplete & Suggestions
+- ⏳ `get_database_autocomplete_suggestions` - Get autocomplete suggestions for database queries
+- ⏳ `get_database_card_autocomplete_suggestions` - Get card-specific autocomplete suggestions
+
+#### Virtual Database Operations
+- ⏳ `get_virtual_database_datasets` - Get datasets from virtual databases
+- ⏳ `get_virtual_database_datasets_for_schema` - Get datasets for a specific virtual schema
+- ⏳ `get_virtual_database_metadata` - Get virtual database metadata
+- ⏳ `get_virtual_database_schema_tables` - Get tables from virtual database schema
+- ⏳ `get_virtual_database_schemas` - Get all schemas from virtual databases
+
+### Table Management Tools
+
+#### Core Table Operations
+- ✅ `list_tables` - List all tables with optional filtering by IDs
+- ✅ `update_tables` - Update multiple tables with bulk operations
+- ✅ `get_table` - Get detailed information about a specific table
+- ✅ `update_table` - Update a specific table's configuration and metadata
+
+#### Table Data Operations
+- ⏳ `get_table_data` - Retrieve data from a specific table with pagination support
+- ✅ `append_csv_to_table` - Append CSV data to an existing table
+- ✅ `replace_table_csv` - Replace table data with new CSV content
+
+#### Table Schema & Metadata
+- ⏳ `get_table_query_metadata` - Get query metadata for a specific table
+- ✅ `get_table_fks` - Get foreign key relationships for a table
+- ✅ `get_table_related` - Get related tables and relationships
+- ⏳ `sync_table_schema` - Synchronize table schema with the database
+- ✅ `reorder_table_fields` - Reorder the display order of table fields
+
+#### Table Field Operations
+- ✅ `rescan_table_field_values` - Rescan and update field values for a table
+- ✅ `discard_table_field_values` - Discard cached field values for a table
+
+#### Card Table Operations
+- ✅ `get_card_table_fks` - Get foreign key relationships for a card's table
+- ⏳ `get_card_table_query_metadata` - Get query metadata for a card's table
 
 ### Settings & Configuration
 
 - `get_metabase_settings` - Get Metabase instance settings
 - `update_metabase_settings` - Update instance settings
+
+## Resources
+
+### MCP Resource Templates
+
+- ✅ `metabase://dashboard/{id}` - Get a Metabase dashboard by its ID
+- ✅ `metabase://card/{id}` - Get a Metabase question/card by its ID
+- ✅ `metabase://database/{id}` - Get a Metabase database by its ID
+- ✅ `metabase://collection/{id}` - Get a Metabase collection by its ID
+- ✅ `metabase://user/{id}` - Get a Metabase user by its ID
+- ✅ `metabase://table/{id}` - Get a Metabase table by its ID
+- ✅ `metabase://field/{id}` - Get a Metabase field by its ID
 
 ## Configuration
 
@@ -209,7 +322,7 @@ export METABASE_URL=https://your-metabase-instance.com
 export METABASE_API_KEY=your_metabase_api_key
 
 # Run the server
-npx @easecloudio/mcp-metabase-server
+npx @rohitbisht101/mcp-metabase-server
 ```
 
 ### Method 2: Using Node.js directly
@@ -218,7 +331,7 @@ If you have the package installed locally or globally:
 
 ```bash
 # Install globally
-npm install -g @easecloudio/mcp-metabase-server
+npm install -g @rohitbisht101/mcp-metabase-server
 
 # Set environment variables
 export METABASE_URL=https://your-metabase-instance.com
@@ -232,7 +345,7 @@ Or run from the built project:
 
 ```bash
 # Clone and build the project
-git clone https://github.com/easecloudio/mcp-metabase-server.git
+git clone https://github.com/R-ohit-B-isht/Metabase-MCP.git
 cd mcp-metabase-server
 npm install
 npm run build
@@ -295,7 +408,7 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
   "mcpServers": {
     "metabase-server": {
       "command": "npx",
-      "args": ["@easecloudio/mcp-metabase-server"],
+      "args": ["@rohitbisht101/mcp-metabase-server"],
       "env": {
         "METABASE_URL": "https://your-metabase-instance.com",
         "METABASE_API_KEY": "your_metabase_api_key"
@@ -329,7 +442,7 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
   "mcpServers": {
     "metabase-server": {
       "command": "npx",
-      "args": ["@easecloudio/mcp-metabase-server"],
+      "args": ["@rohitbisht101/mcp-metabase-server"],
       "env": {
         "METABASE_URL": "https://your-metabase-instance.com",
         "METABASE_USERNAME": "your_username",
@@ -400,10 +513,7 @@ After configuring the environment variables as described in the "Configuration" 
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Support
-
-For support, please contact us at [info@easecloud.io](mailto:info@easecloud.io) or visit our website at [EaseCloud.io](https://easecloud.io).
 
 ## Contributing
 
-Contributions are welcome! Please visit our [GitHub repository](https://github.com/easecloudio/mcp-metabase-server) to submit issues or pull requests.
+Contributions are welcome! Please visit our [GitHub repository](https://github.com/R-ohit-B-isht/Metabase-MCP.git) to submit issues or pull requests.
