@@ -219,9 +219,9 @@ export class MetabaseClient {
         const response = await this.axiosInstance.get(`/api/card/${cardId}/params/${paramKey}/search/${query}`);
         return response.data;
     }
-    async getCardParamRemapping(cardId, paramKey) {
+    async getCardParamRemapping(cardId, paramKey, value) {
         await this.ensureAuthenticated();
-        const response = await this.axiosInstance.get(`/api/card/${cardId}/params/${paramKey}/remapping`);
+        const response = await this.axiosInstance.get(`/api/card/${cardId}/params/${paramKey}/remapping?value=${encodeURIComponent(value)}`);
         return response.data;
     }
     // Card public link operations
@@ -260,9 +260,22 @@ export class MetabaseClient {
         return response.data;
     }
     // Card series operations
-    async getCardSeries(cardId) {
+    async getCardSeries(cardId, options = {}) {
         await this.ensureAuthenticated();
-        const response = await this.axiosInstance.get(`/api/card/${cardId}/series`);
+        const params = new URLSearchParams();
+        if (options.last_cursor !== undefined) {
+            params.append('last_cursor', options.last_cursor.toString());
+        }
+        if (options.query !== undefined && options.query !== '') {
+            params.append('query', options.query);
+        }
+        if (options.exclude_ids !== undefined && Array.isArray(options.exclude_ids)) {
+            options.exclude_ids.forEach((id) => {
+                params.append('exclude_ids', id.toString());
+            });
+        }
+        const url = params.toString() ? `/api/card/${cardId}/series?${params.toString()}` : `/api/card/${cardId}/series`;
+        const response = await this.axiosInstance.get(url);
         return response.data;
     }
     // Database operations

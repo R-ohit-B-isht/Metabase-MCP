@@ -311,46 +311,56 @@ export class CardToolHandlers {
                     required: ["card_id", "param_key"],
                 },
             },
-            // {
-            //   name: "search_card_param_values",
-            //   description: "Search values for a card parameter",
-            //   inputSchema: {
-            //     type: "object",
-            //     properties: {
-            //       card_id: {
-            //         type: "number",
-            //         description: "ID of the card",
-            //       },
-            //       param_key: {
-            //         type: "string",
-            //         description: "Parameter key",
-            //       },
-            //       query: {
-            //         type: "string",
-            //         description: "Search query",
-            //       },
-            //     },
-            //     required: ["card_id", "param_key", "query"],
-            //   },
-            // },
-            // {
-            //   name: "get_card_param_remapping",
-            //   description: "Get parameter remapping for a card",
-            //   inputSchema: {
-            //     type: "object",
-            //     properties: {
-            //       card_id: {
-            //         type: "number",
-            //         description: "ID of the card",
-            //       },
-            //       param_key: {
-            //         type: "string",
-            //         description: "Parameter key",
-            //       },
-            //     },
-            //     required: ["card_id", "param_key"],
-            //   },
-            // },
+            {
+                name: "search_card_param_values",
+                description: "Search values for a card parameter",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        card_id: {
+                            type: "number",
+                            description: "ID of the card",
+                            minimum: 1,
+                        },
+                        param_key: {
+                            type: "string",
+                            description: "Parameter key",
+                            minLength: 1,
+                        },
+                        query: {
+                            type: "string",
+                            description: "Search query",
+                            minLength: 1,
+                        },
+                    },
+                    required: ["card_id", "param_key", "query"],
+                },
+            },
+            {
+                name: "get_card_param_remapping",
+                description: "Get parameter remapping for a card",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        card_id: {
+                            type: "number",
+                            description: "ID of the card",
+                            minimum: 1,
+                        },
+                        param_key: {
+                            type: "string",
+                            description: "Parameter key",
+                            minLength: 1,
+                        },
+                        value: {
+                            type: "string",
+                            description: "Value to get remapping for",
+                            minLength: 1,
+                        },
+                    },
+                    required: ["card_id", "param_key", "value"],
+                },
+            },
             {
                 name: "create_card_public_link",
                 description: "Create a public link for a card",
@@ -438,25 +448,44 @@ export class CardToolHandlers {
                         card_id: {
                             type: "number",
                             description: "ID of the card",
+                            minimum: 1,
                         },
                     },
                     required: ["card_id"],
                 },
             },
-            // {
-            //   name: "get_card_series",
-            //   description: "Get series data for a card",
-            //   inputSchema: {
-            //     type: "object",
-            //     properties: {
-            //       card_id: {
-            //         type: "number",
-            //         description: "ID of the card",
-            //       },
-            //     },
-            //     required: ["card_id"],
-            //   },
-            // },
+            {
+                name: "get_card_series",
+                description: "Get series data for a card with optional filtering and pagination",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        card_id: {
+                            type: "number",
+                            description: "ID of the card",
+                            minimum: 1,
+                        },
+                        last_cursor: {
+                            type: "number",
+                            description: "ID of the last card from the previous page to fetch the next page",
+                            minimum: 1,
+                        },
+                        query: {
+                            type: "string",
+                            description: "Search card by name",
+                            minLength: 1,
+                        },
+                        exclude_ids: {
+                            type: "array",
+                            description: "Filter out a list of card IDs",
+                            items: {
+                                type: "number",
+                            },
+                        },
+                    },
+                    required: ["card_id"],
+                },
+            },
         ];
     }
     async handleTool(name, args) {
@@ -703,11 +732,11 @@ export class CardToolHandlers {
         };
     }
     async getCardParamRemapping(args) {
-        const { card_id, param_key } = args;
-        if (!card_id || !param_key) {
-            throw new McpError(ErrorCode.InvalidParams, "Card ID and parameter key are required");
+        const { card_id, param_key, value } = args;
+        if (!card_id || !param_key || !value) {
+            throw new McpError(ErrorCode.InvalidParams, "Card ID, parameter key, and value are required");
         }
-        const remapping = await this.client.getCardParamRemapping(card_id, param_key);
+        const remapping = await this.client.getCardParamRemapping(card_id, param_key, value);
         return {
             content: [
                 {
@@ -808,11 +837,15 @@ export class CardToolHandlers {
         };
     }
     async getCardSeries(args) {
-        const { card_id } = args;
+        const { card_id, last_cursor, query, exclude_ids } = args;
         if (!card_id) {
             throw new McpError(ErrorCode.InvalidParams, "Card ID is required");
         }
-        const series = await this.client.getCardSeries(card_id);
+        const series = await this.client.getCardSeries(card_id, {
+            last_cursor,
+            query,
+            exclude_ids,
+        });
         return {
             content: [
                 {

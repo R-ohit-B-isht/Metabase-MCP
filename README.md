@@ -54,15 +54,15 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 - ✅ `execute_pivot_card_query` - Execute a pivot query for a card
 - ✅ `get_public_cards` - Get all public cards
 - ✅ `get_card_param_values` - Get values for a card parameter
-- ⏳ `search_card_param_values` - Search values for a card parameter
-- ⏳ `get_card_param_remapping` - Get parameter remapping for a card
+- ✅ `search_card_param_values` - Search values for a card parameter
+- ✅ `get_card_param_remapping` - Get parameter remapping for a card
 - ✅ `create_card_public_link` - Create a public link for a card
 - ✅ `delete_card_public_link` - Delete a public link for a card
 - ✅ `execute_card_query_with_format` - Execute a card query with a specific export format
 - ✅ `copy_card` - Create a copy of a card
 - ✅ `get_card_dashboards` - Get all dashboards containing a card
 - ✅ `get_card_query_metadata` - Get query metadata for a card
-- ⏳ `get_card_series` - Get series data for a card
+- ✅ `get_card_series` - Get series data for a card
 
 ### Collections Management
 
@@ -124,31 +124,31 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 - ✅ `get_dashboard_cards` - Get all cards in a dashboard
 
 #### Dashboard Card Management (Preserved)
-- ⏳ `add_card_to_dashboard` - Add a card to a dashboard with positioning
+- ❌ `add_card_to_dashboard`(depriciated) - Add a card to a dashboard with positioning
 - ✅ `remove_card_from_dashboard` - Remove a card from a dashboard
 - ✅ `update_dashboard_card` - Update card position, size, and settings
 
 #### Dashboard Embedding & Public Access
-- ⏳ `get_dashboard_embeddable` - Get embeddable dashboards
+- ✅ `get_dashboard_embeddable` - Get embeddable dashboards
 - ✅ `get_dashboard_public` - Get public dashboards
 - ✅ `post_dashboard_public_link` - Create a public link for a dashboard
 - ✅ `delete_dashboard_public_link` - Delete a public link for a dashboard
 
 #### Dashboard Queries & Execution
 - ✅ `post_dashboard_query` - Execute a query for a dashboard card
-- ⏳ `post_dashboard_query_export` - Export dashboard card query results in specified format
+- ✅ `post_dashboard_query_export` - Export dashboard card query results in specified format
 - ⏳ `post_dashboard_pivot_query` - Execute a pivot query for a dashboard card
 - ⏳ `get_dashboard_execute` - Get execution status for a dashboard card
 - ⏳ `post_dashboard_execute` - Execute a dashboard card
 
 #### Dashboard Parameters & Filtering
-- ⏳ `get_dashboard_params_valid_filter_fields` - Get valid filter fields for dashboard parameters
-- ⏳ `get_dashboard_param_remapping` - Get parameter remapping for a dashboard
-- ⏳ `get_dashboard_param_search` - Search dashboard parameter values
-- ⏳ `get_dashboard_param_values` - Get parameter values for a dashboard
+- ✅ `get_dashboard_params_valid_filter_fields` - Get valid filter fields for dashboard parameters
+- ✅ `get_dashboard_param_remapping` - Get parameter remapping for a dashboard
+- ✅ `get_dashboard_param_search` - Search dashboard parameter values
+- ✅ `get_dashboard_param_values` - Get parameter values for a dashboard
 
 #### Dashboard Management & Operations
-- ⏳ `post_dashboard_save` - Save a dashboard
+- ✅ `post_dashboard_save` - Save a dashboard
 - ⏳ `post_dashboard_save_to_collection` - Save a dashboard to a specific collection
 - ✅ `post_dashboard_copy` - Copy a dashboard
 - ✅ `get_dashboard` - Get a specific dashboard by ID
