@@ -23,7 +23,7 @@ export class MetabaseServer {
     metabaseClient;
     resourceHandlers;
     toolRegistry;
-    constructor(config) {
+    constructor(config, filterOptions) {
         // Load and validate configuration
         const serverConfig = config || loadConfig();
         validateConfig(serverConfig);
@@ -41,7 +41,7 @@ export class MetabaseServer {
         this.metabaseClient = new MetabaseClient(serverConfig);
         // Initialize handlers
         this.resourceHandlers = new ResourceHandlers(this.metabaseClient);
-        this.toolRegistry = new ToolRegistry(this.metabaseClient);
+        this.toolRegistry = new ToolRegistry(this.metabaseClient, filterOptions);
         // Setup request handlers
         this.setupResourceHandlers();
         this.setupToolHandlers();

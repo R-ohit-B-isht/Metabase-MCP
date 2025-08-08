@@ -15,7 +15,7 @@ import axios from "axios";
 import { MetabaseClient } from "./client/metabase-client.js";
 import { ResourceHandlers } from "./handlers/resource-handlers.js";
 import { ToolRegistry } from "./handlers/tool-registry.js";
-import { MetabaseConfig } from "./types/metabase.js";
+import { MetabaseConfig, ToolFilterOptions } from "./types/metabase.js";
 import { ErrorCode, McpError } from "./types/errors.js";
 import { loadConfig, validateConfig } from "./utils/config.js";
 
@@ -34,7 +34,7 @@ export class MetabaseServer {
   private resourceHandlers: ResourceHandlers;
   private toolRegistry: ToolRegistry;
 
-  constructor(config?: MetabaseConfig) {
+  constructor(config?: MetabaseConfig, filterOptions?: ToolFilterOptions) {
     // Load and validate configuration
     const serverConfig = config || loadConfig();
     validateConfig(serverConfig);
@@ -58,7 +58,7 @@ export class MetabaseServer {
 
     // Initialize handlers
     this.resourceHandlers = new ResourceHandlers(this.metabaseClient);
-    this.toolRegistry = new ToolRegistry(this.metabaseClient);
+    this.toolRegistry = new ToolRegistry(this.metabaseClient, filterOptions);
 
     // Setup request handlers
     this.setupResourceHandlers();

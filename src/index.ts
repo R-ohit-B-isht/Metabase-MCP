@@ -48,6 +48,10 @@ process.on("unhandledRejection", (reason: unknown) => {
   );
 });
 
+const args = process.argv.slice(2);
+const includeWriteTools = args.includes('--write');
+const includeAllTools = args.includes('--all-tools');
+
 // Create and run the server
-const server = new MetabaseServer();
+const server = new MetabaseServer(undefined, { includeWriteTools, includeAllTools });
 server.run().catch(console.error);
