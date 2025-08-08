@@ -60,16 +60,17 @@ export class TableToolHandlers {
       },
       // {
       //   name: "get_card_table_query_metadata",
-      //   description: "Return metadata for virtual table for a Card",
+      //   description: "Return metadata for the 'virtual' table for a Card",
       //   inputSchema: {
       //     type: "object",
       //     properties: {
-      //       card_id: {
+      //       id: {
       //         type: "number",
-      //         description: "ID of the card"
+      //         minimum: 1,
+      //         description: "Card ID - value must be an integer greater than zero"
       //       }
       //     },
-      //     required: ["card_id"]
+      //     required: ["id"]
       //   }
       // },
       {
@@ -140,24 +141,29 @@ export class TableToolHandlers {
           required: ["id"]
         }
       },
-      // {
-      //   name: "append_csv_to_table",
-      //   description: "Insert CSV rows into table",
-      //   inputSchema: {
-      //     type: "object",
-      //     properties: {
-      //       id: {
-      //         type: "number",
-      //         description: "Table ID"
-      //       },
-      //       csv_file: {
-      //         type: "string",
-      //         description: "CSV file content or path"
-      //       }
-      //     },
-      //     required: ["id", "csv_file"]
-      //   }
-      // },
+      {
+        name: "append_csv_to_table",
+        description: "Inserts the rows of an uploaded CSV file into the table identified by :id. The table must have been created by uploading a CSV file.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            id: {
+              type: "number",
+              minimum: 1,
+              description: "Table ID - value must be an integer greater than zero"
+            },
+            filename: {
+              type: "string",
+              description: "Name of the CSV file to upload"
+            },
+            file_content: {
+              type: "string",
+              description: "CSV file content as string or file path"
+            }
+          },
+          required: ["id", "filename", "file_content"]
+        }
+      },
       {
         name: "discard_table_field_values",
         description: "Discard FieldValues for table",
@@ -172,25 +178,26 @@ export class TableToolHandlers {
           required: ["id"]
         }
       },
-      // {
-      //   name: "reorder_table_fields",
-      //   description: "Reorder fields in a table",
-      //   inputSchema: {
-      //     type: "object",
-      //     properties: {
-      //       id: {
-      //         type: "number",
-      //         description: "Table ID"
-      //       },
-      //       field_order: {
-      //         type: "array",
-      //         items: { type: "number" },
-      //         description: "Array of field IDs in desired order"
-      //       }
-      //     },
-      //     required: ["id", "field_order"]
-      //   }
-      // },
+      {
+        name: "reorder_table_fields",
+        description: "Reorder fields in a table",
+        inputSchema: {
+          type: "object",
+          properties: {
+            id: {
+              type: "number",
+              minimum: 1,
+              description: "Table ID - value must be an integer greater than zero"
+            },
+            field_order: {
+              type: "array",
+              items: { type: "number" },
+              description: "Array of field IDs in desired order"
+            }
+          },
+          required: ["id", "field_order"]
+        }
+      },
       {
         name: "get_table_fks",
         description: "Get foreign keys for table",
@@ -207,13 +214,14 @@ export class TableToolHandlers {
       },
       // {
       //   name: "get_table_query_metadata",
-      //   description: "Get table metadata for queries",
+      //   description: "Get metadata about a Table useful for running queries. Returns DB, fields, field FKs, and field values. Passing include_hidden_fields=true will include any hidden Fields in the response. Passing include_sensitive_fields=true will include any sensitive Fields in the response. Passing include_editable_data_model=true will check that the current user has write permissions for the table's data model.",
       //   inputSchema: {
       //     type: "object",
       //     properties: {
       //       id: {
       //         type: "number",
-      //         description: "Table ID"
+      //         minimum: 1,
+      //         description: "Table ID - value must be an integer greater than zero"
       //       },
       //       include_sensitive_fields: {
       //         type: "boolean",
@@ -224,6 +232,11 @@ export class TableToolHandlers {
       //         type: "boolean",
       //         default: false,
       //         description: "Include hidden fields in metadata"
+      //       },
+      //       include_editable_data_model: {
+      //         type: "boolean",
+      //         default: false,
+      //         description: "Check that the current user has write permissions for the table's data model"
       //       }
       //     },
       //     required: ["id"]
@@ -243,24 +256,25 @@ export class TableToolHandlers {
           required: ["id"]
         }
       },
-      // {
-      //   name: "replace_table_csv",
-      //   description: "Replace table contents with CSV",
-      //   inputSchema: {
-      //     type: "object",
-      //     properties: {
-      //       id: {
-      //         type: "number",
-      //         description: "Table ID"
-      //       },
-      //       csv_file: {
-      //         type: "string",
-      //         description: "CSV file content or path"
-      //       }
-      //     },
-      //     required: ["id", "csv_file"]
-      //   }
-      // },
+      {
+        name: "replace_table_csv",
+        description: "Replaces the contents of the table identified by :id with the rows of an uploaded CSV file. The table must have been created by uploading a CSV file.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            id: {
+              type: "number",
+              minimum: 1,
+              description: "Table ID - value must be an integer greater than zero"
+            },
+            csv_file: {
+              type: "string",
+              description: "CSV file content or file path to upload"
+            }
+          },
+          required: ["id", "csv_file"]
+        }
+      },
       {
         name: "rescan_table_field_values",
         description: "Trigger FieldValues update for table",
@@ -283,7 +297,8 @@ export class TableToolHandlers {
       //     properties: {
       //       id: {
       //         type: "number",
-      //         description: "Table ID"
+      //         minimum: 1,
+      //         description: "Table ID - value must be an integer greater than zero"
       //       }
       //     },
       //     required: ["id"]
@@ -291,21 +306,19 @@ export class TableToolHandlers {
       // },
       // {
       //   name: "get_table_data",
-      //   description: "Get table data with optional filtering and pagination",
+      //   description: "Get the data for the given table",
       //   inputSchema: {
       //     type: "object",
       //     properties: {
       //       table_id: {
       //         type: "number",
-      //         description: "Table ID"
+      //         minimum: 1,
+      //         description: "Table ID - value must be an integer greater than zero"
       //       },
       //       limit: {
       //         type: "number",
-      //         description: "Maximum number of rows to return"
-      //       },
-      //       offset: {
-      //         type: "number",
-      //         description: "Number of rows to skip"
+      //         minimum: 1,
+      //         description: "Maximum number of rows to return (default: 1000 to prevent timeouts)"
       //       }
       //     },
       //     required: ["table_id"]
@@ -411,16 +424,16 @@ export class TableToolHandlers {
   }
 
   private async getCardTableQueryMetadata(args: any): Promise<any> {
-    const { card_id } = args;
+    const { id } = args;
 
-    if (!card_id) {
+    if (!id || id < 1) {
       throw new McpError(
         ErrorCode.InvalidParams,
-        "Card ID is required"
+        "Card ID is required and must be greater than zero"
       );
     }
 
-    const metadata = await this.client.getCardTableQueryMetadata(card_id);
+    const metadata = await this.client.getCardTableQueryMetadata(id);
     return {
       content: [
         {
@@ -478,16 +491,30 @@ export class TableToolHandlers {
   }
 
   private async appendCsvToTable(args: any): Promise<any> {
-    const { id, csv_file } = args;
+    const { id, filename, file_content } = args;
 
-    if (!id || !csv_file) {
+    if (!id || id < 1) {
       throw new McpError(
         ErrorCode.InvalidParams,
-        "Table ID and CSV file are required"
+        "Table ID is required and must be greater than zero"
       );
     }
 
-    const result = await this.client.appendCsvToTable(id, csv_file);
+    if (!filename) {
+      throw new McpError(
+        ErrorCode.InvalidParams,
+        "Filename is required"
+      );
+    }
+
+    if (!file_content) {
+      throw new McpError(
+        ErrorCode.InvalidParams,
+        "File content is required"
+      );
+    }
+
+    const result = await this.client.appendCsvToTable(id, filename, file_content);
     return {
       content: [
         {
@@ -522,10 +549,17 @@ export class TableToolHandlers {
   private async reorderTableFields(args: any): Promise<any> {
     const { id, field_order } = args;
 
-    if (!id || !field_order) {
+    if (!id || id < 1) {
       throw new McpError(
         ErrorCode.InvalidParams,
-        "Table ID and field order are required"
+        "Table ID is required and must be greater than zero"
+      );
+    }
+
+    if (!field_order || !Array.isArray(field_order)) {
+      throw new McpError(
+        ErrorCode.InvalidParams,
+        "Field order array is required"
       );
     }
 
@@ -562,18 +596,19 @@ export class TableToolHandlers {
   }
 
   private async getTableQueryMetadata(args: any): Promise<any> {
-    const { id, include_sensitive_fields, include_hidden_fields } = args;
+    const { id, include_sensitive_fields, include_hidden_fields, include_editable_data_model } = args;
 
-    if (!id) {
+    if (!id || id < 1) {
       throw new McpError(
         ErrorCode.InvalidParams,
-        "Table ID is required"
+        "Table ID is required and must be greater than zero"
       );
     }
 
     const metadata = await this.client.getTableQueryMetadata(id, {
       include_sensitive_fields,
-      include_hidden_fields
+      include_hidden_fields,
+      include_editable_data_model
     });
     return {
       content: [
@@ -609,10 +644,17 @@ export class TableToolHandlers {
   private async replaceTableCsv(args: any): Promise<any> {
     const { id, csv_file } = args;
 
-    if (!id || !csv_file) {
+    if (!id || id < 1) {
       throw new McpError(
         ErrorCode.InvalidParams,
-        "Table ID and CSV file are required"
+        "Table ID is required and must be greater than zero"
+      );
+    }
+
+    if (!csv_file) {
+      throw new McpError(
+        ErrorCode.InvalidParams,
+        "CSV file is required"
       );
     }
 
@@ -651,10 +693,10 @@ export class TableToolHandlers {
   private async syncTableSchema(args: any): Promise<any> {
     const { id } = args;
 
-    if (!id) {
+    if (!id || id < 1) {
       throw new McpError(
         ErrorCode.InvalidParams,
-        "Table ID is required"
+        "Table ID is required and must be greater than zero"
       );
     }
 
@@ -670,16 +712,16 @@ export class TableToolHandlers {
   }
 
   private async getTableData(args: any): Promise<any> {
-    const { table_id, limit, offset } = args;
+    const { table_id, limit } = args;
 
-    if (!table_id) {
+    if (!table_id || table_id < 1) {
       throw new McpError(
         ErrorCode.InvalidParams,
-        "Table ID is required"
+        "Table ID is required and must be greater than zero"
       );
     }
 
-    const data = await this.client.getTableData(table_id, { limit, offset });
+    const data = await this.client.getTableData(table_id, limit);
     return {
       content: [
         {

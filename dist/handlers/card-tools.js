@@ -11,10 +11,23 @@ export class CardToolHandlers {
         return [
             {
                 name: "list_cards",
-                description: "List all questions/cards in Metabase",
+                description: "Get all the Cards. Option filter param f can be used to change the set of Cards that are returned",
                 inputSchema: {
                     type: "object",
-                    properties: {},
+                    properties: {
+                        f: {
+                            type: "string",
+                            enum: ["archived", "table", "using_model", "bookmarked", "using_segment", "all", "mine", "database"],
+                            default: "all",
+                            description: "Filter parameter to change the set of Cards returned"
+                        },
+                        model_id: {
+                            type: "integer",
+                            minimum: 1,
+                            description: "Optional model ID - value must be an integer greater than zero"
+                        }
+                    },
+                    required: []
                 },
             },
             {
@@ -491,7 +504,7 @@ export class CardToolHandlers {
     async handleTool(name, args) {
         switch (name) {
             case "list_cards":
-                return await this.listCards();
+                return await this.listCards(args);
             case "create_card":
                 return await this.createCard(args);
             case "update_card":
@@ -534,8 +547,12 @@ export class CardToolHandlers {
                 throw new McpError(ErrorCode.MethodNotFound, `Unknown card tool: ${name}`);
         }
     }
-    async listCards() {
-        const cards = await this.client.getCards();
+    async listCards(args = {}) {
+        const { f = "all", model_id } = args;
+        if (model_id !== undefined && (model_id < 1 || !Number.isInteger(model_id))) {
+            throw new McpError(ErrorCode.InvalidParams, "model_id must be an integer greater than zero");
+        }
+        const cards = await this.client.getCards({ f, model_id });
         return {
             content: [
                 {

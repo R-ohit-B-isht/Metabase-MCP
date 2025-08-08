@@ -15,6 +15,7 @@ export class MetabaseClient {
             headers: {
                 "Content-Type": "application/json",
             },
+            timeout: 30000, // 30 second timeout to prevent hanging requests
         });
         if (config.apiKey) {
             this.logInfo("Using Metabase API Key for authentication.");
@@ -115,9 +116,17 @@ export class MetabaseClient {
         }
     }
     // Card operations
-    async getCards() {
+    async getCards(options = {}) {
         await this.ensureAuthenticated();
-        const response = await this.axiosInstance.get("/api/card");
+        const params = new URLSearchParams();
+        if (options.f !== undefined) {
+            params.append('f', options.f);
+        }
+        if (options.model_id !== undefined) {
+            params.append('model_id', options.model_id.toString());
+        }
+        const url = params.toString() ? `/api/card?${params.toString()}` : '/api/card';
+        const response = await this.axiosInstance.get(url);
         return response.data;
     }
     async getCard(id) {
@@ -465,10 +474,11 @@ export class MetabaseClient {
         const response = await this.axiosInstance.put(`/api/table/${id}`, updateData);
         return response.data;
     }
-    async appendCsvToTable(id, csvFile) {
+    async appendCsvToTable(id, filename, fileContent) {
         await this.ensureAuthenticated();
         const formData = new FormData();
-        formData.append('csv_file', csvFile);
+        const blob = new Blob([fileContent], { type: 'text/csv' });
+        formData.append('file', blob, filename);
         const response = await this.axiosInstance.post(`/api/table/${id}/append-csv`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' }
         });
@@ -481,8 +491,7 @@ export class MetabaseClient {
     }
     async reorderTableFields(id, fieldOrder) {
         await this.ensureAuthenticated();
-        const data = { field_order: fieldOrder };
-        const response = await this.axiosInstance.put(`/api/table/${id}/fields/order`, data);
+        const response = await this.axiosInstance.put(`/api/table/${id}/fields/order`, fieldOrder);
         return response.data;
     }
     async getTableFks(id) {
@@ -498,6 +507,9 @@ export class MetabaseClient {
         }
         if (options.include_hidden_fields !== undefined) {
             params.append('include_hidden_fields', options.include_hidden_fields.toString());
+        }
+        if (options.include_editable_data_model !== undefined) {
+            params.append('include_editable_data_model', options.include_editable_data_model.toString());
         }
         const url = params.toString() ? `/api/table/${id}/query_metadata?${params.toString()}` : `/api/table/${id}/query_metadata`;
         const response = await this.axiosInstance.get(url);
@@ -527,16 +539,16 @@ export class MetabaseClient {
         const response = await this.axiosInstance.post(`/api/table/${id}/sync_schema`);
         return response.data;
     }
-    async getTableData(tableId, options = {}) {
+    async getTableData(tableId, limit) {
         await this.ensureAuthenticated();
         const params = new URLSearchParams();
-        if (options.limit !== undefined) {
-            params.append('limit', options.limit.toString());
+        if (limit !== undefined) {
+            params.append('limit', limit.toString());
         }
-        if (options.offset !== undefined) {
-            params.append('offset', options.offset.toString());
+        else {
+            params.append('limit', '1000');
         }
-        const url = params.toString() ? `/api/table/${tableId}/data?${params.toString()}` : `/api/table/${tableId}/data`;
+        const url = `/api/table/${tableId}/data?${params.toString()}`;
         const response = await this.axiosInstance.get(url);
         return response.data;
     }

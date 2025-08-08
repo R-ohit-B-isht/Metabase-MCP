@@ -138,8 +138,8 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 - ✅ `post_dashboard_query` - Execute a query for a dashboard card
 - ✅ `post_dashboard_query_export` - Export dashboard card query results in specified format
 - ⏳ `post_dashboard_pivot_query` - Execute a pivot query for a dashboard card
-- ⏳ `get_dashboard_execute` - Get execution status for a dashboard card
-- ⏳ `post_dashboard_execute` - Execute a dashboard card
+- ❌ `get_dashboard_execute` - Get execution status for a dashboard card
+- ❌ `post_dashboard_execute` - Execute a dashboard card
 
 #### Dashboard Parameters & Filtering
 - ✅ `get_dashboard_params_valid_filter_fields` - Get valid filter fields for dashboard parameters
@@ -218,15 +218,15 @@ This is a TypeScript-based MCP server that implements full integration with Meta
 
 #### Table Data Operations
 - ⏳ `get_table_data` - Retrieve data from a specific table with pagination support
-- ⏳ `append_csv_to_table` - Append CSV data to an existing table
-- ⏳ `replace_table_csv` - Replace table data with new CSV content
+- ✅ `append_csv_to_table` - Append CSV data to an existing table
+- ✅ `replace_table_csv` - Replace table data with new CSV content
 
 #### Table Schema & Metadata
 - ⏳ `get_table_query_metadata` - Get query metadata for a specific table
 - ✅ `get_table_fks` - Get foreign key relationships for a table
 - ✅ `get_table_related` - Get related tables and relationships
 - ⏳ `sync_table_schema` - Synchronize table schema with the database
-- ⏳ `reorder_table_fields` - Reorder the display order of table fields
+- ✅ `reorder_table_fields` - Reorder the display order of table fields
 
 #### Table Field Operations
 - ✅ `rescan_table_field_values` - Rescan and update field values for a table
@@ -322,7 +322,7 @@ export METABASE_URL=https://your-metabase-instance.com
 export METABASE_API_KEY=your_metabase_api_key
 
 # Run the server
-npx @easecloudio/mcp-metabase-server
+npx @rohitbisht101/mcp-metabase-server
 ```
 
 ### Method 2: Using Node.js directly
@@ -331,7 +331,7 @@ If you have the package installed locally or globally:
 
 ```bash
 # Install globally
-npm install -g @easecloudio/mcp-metabase-server
+npm install -g @rohitbisht101/mcp-metabase-server
 
 # Set environment variables
 export METABASE_URL=https://your-metabase-instance.com
@@ -345,7 +345,7 @@ Or run from the built project:
 
 ```bash
 # Clone and build the project
-git clone https://github.com/easecloudio/mcp-metabase-server.git
+git clone https://github.com/R-ohit-B-isht/Metabase-MCP.git
 cd mcp-metabase-server
 npm install
 npm run build
@@ -408,7 +408,7 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
   "mcpServers": {
     "metabase-server": {
       "command": "npx",
-      "args": ["@easecloudio/mcp-metabase-server"],
+      "args": ["@rohitbisht101/mcp-metabase-server"],
       "env": {
         "METABASE_URL": "https://your-metabase-instance.com",
         "METABASE_API_KEY": "your_metabase_api_key"
@@ -442,7 +442,7 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
   "mcpServers": {
     "metabase-server": {
       "command": "npx",
-      "args": ["@easecloudio/mcp-metabase-server"],
+      "args": ["@rohitbisht101/mcp-metabase-server"],
       "env": {
         "METABASE_URL": "https://your-metabase-instance.com",
         "METABASE_USERNAME": "your_username",
@@ -513,10 +513,7 @@ After configuring the environment variables as described in the "Configuration" 
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Support
-
-For support, please contact us at [info@easecloud.io](mailto:info@easecloud.io) or visit our website at [EaseCloud.io](https://easecloud.io).
 
 ## Contributing
 
-Contributions are welcome! Please visit our [GitHub repository](https://github.com/easecloudio/mcp-metabase-server) to submit issues or pull requests.
+Contributions are welcome! Please visit our [GitHub repository](https://github.com/R-ohit-B-isht/Metabase-MCP.git) to submit issues or pull requests.
