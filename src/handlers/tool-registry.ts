@@ -888,28 +888,26 @@ export class ToolRegistry {
       return tools.filter(tool => this.isEssentialTool(tool.name) && !this.isWriteTool(tool.name));
     }
 
-    let filteredTools = tools;
-
-    if (!this.filterOptions.includeAllTools) {
-      if (this.filterOptions.includeWriteTools) {
-        filteredTools = filteredTools.filter(tool =>
-          this.isEssentialTool(tool.name) || this.isWriteTool(tool.name)
-        );
-      } else {
-        filteredTools = filteredTools.filter(tool => this.isEssentialTool(tool.name));
-      }
+    // Handle --write flag only (show essential + write tools = 45 total)
+    if (this.filterOptions.includeWriteTools && !this.filterOptions.includeAllTools) {
+      return tools.filter(tool => this.isEssentialTool(tool.name) || this.isWriteTool(tool.name));
     }
 
-    if (!this.filterOptions.includeWriteTools) {
-      filteredTools = filteredTools.filter(tool => !this.isWriteTool(tool.name));
+    // Handle --all-tools flag only (show all 94 tools)
+    if (this.filterOptions.includeAllTools && !this.filterOptions.includeWriteTools) {
+      return tools;
     }
 
-    return filteredTools;
+    // Handle both flags together (show all 94 tools)
+    if (this.filterOptions.includeWriteTools && this.filterOptions.includeAllTools) {
+      return tools;
+    }
+
+    return tools.filter(tool => this.isEssentialTool(tool.name) && !this.isWriteTool(tool.name));
   }
 
   private isWriteTool(toolName: string): boolean {
-    const writeOperations = [
-      // Dashboard tools
+    const writePlusTools = new Set([
       'create_dashboard',
       'update_dashboard',
       'delete_dashboard',
@@ -919,60 +917,51 @@ export class ToolRegistry {
       'post_dashboard_query',
       'post_dashboard_query_export',
       'put_dashboard_cards',
-      // Card tools
       'create_card',
       'update_card',
       'delete_card',
       'move_cards',
       'move_cards_to_collection',
       'copy_card',
-      // Database tools
       'create_database',
       'validate_database',
       'update_database',
       'delete_database',
-      // Table tools
       'update_table',
       'reorder_table_fields',
-      // Additional tools
       'create_collection',
       'update_collection',
       'delete_collection',
       'move_to_collection'
-    ];
+    ]);
 
-    return writeOperations.some(op => toolName.includes(op));
+    return writePlusTools.has(toolName);
   }
 
   private isEssentialTool(toolName: string): boolean {
-    const essentialTools = [
-      // Dashboard tools
+    const essentialTools = new Set([
       'list_dashboards',
       'get_dashboard',
       'get_dashboard_cards',
       'get_dashboard_items',
-      // Card tools
       'list_cards',
       'execute_card',
       'get_card_dashboards',
-      // Database tools
       'list_databases',
       'get_database',
       'get_database_schema_tables',
       'get_database_schema_tables_for_schema',
       'get_database_schemas',
       'execute_query',
-      // Table tools
       'list_tables',
       'get_table',
-      // Additional tools
       'list_collections',
       'get_collection_items',
       'list_users',
       'list_permission_groups',
       'search_content'
-    ];
+    ]);
 
-    return essentialTools.includes(toolName);
+    return essentialTools.has(toolName);
   }
 }
